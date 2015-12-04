@@ -1,0 +1,10 @@
+locale:
+    default: es
+
+swagger:
+    title: Contest API
+    description:
+    termsOfServiceUrl:
+    contact:
+    license:
+    licenseUrl:

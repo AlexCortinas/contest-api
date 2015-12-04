@@ -1,0 +1,8 @@
+{
+	"name": "Contest-API",
+	"version": "0.0.1",
+	"appPath": "src/main/webapp",
+	"dependencies": {
+		"swagger-ui": "~2.0.24"
+	}
+}
