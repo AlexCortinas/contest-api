@@ -6,6 +6,13 @@ public class Candidate {
 	private String name;
 	private int votes = 0;
 
+	public Candidate() {
+	}
+
+	public Candidate(String name) {
+		this.name = name;
+	}
+
 	public String getName() {
 		return name;
 	}

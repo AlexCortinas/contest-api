@@ -1,7 +1,7 @@
 package org.cuacfm.contests.api.model;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 public class Contest {
 	private String id;
@@ -9,7 +9,15 @@ public class Contest {
 	private String desc;
 	private boolean voting = false;
 
-	private Collection<Category> categories = new ArrayList<Category>();
+	private List<Category> categories = new ArrayList<Category>();
+	
+	public Contest(){}
+
+	public Contest(String id, String name, String desc) {
+		this.id = id;
+		this.name = name;
+		this.desc = desc;
+	}
 
 	public String getId() {
 		return id;
@@ -35,11 +43,11 @@ public class Contest {
 		this.desc = desc;
 	}
 
-	public Collection<Category> getCategories() {
+	public List<Category> getCategories() {
 		return categories;
 	}
 
-	public void setCategories(Collection<Category> categories) {
+	public void setCategories(List<Category> categories) {
 		this.categories = categories;
 	}
 

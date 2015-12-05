@@ -9,6 +9,7 @@ import javax.inject.Inject;
 
 import org.cuacfm.contests.api.config._configBasePackage;
 import org.cuacfm.contests.api.rest._restBasePackage;
+import org.cuacfm.contests.api.service._serviceBasePackage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -17,7 +18,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.SimpleCommandLinePropertySource;
 
-@ComponentScan(basePackageClasses = { _configBasePackage.class, _restBasePackage.class })
+@ComponentScan(basePackageClasses = { _configBasePackage.class, _restBasePackage.class, _serviceBasePackage.class })
 @EnableAutoConfiguration
 public class Application {
 

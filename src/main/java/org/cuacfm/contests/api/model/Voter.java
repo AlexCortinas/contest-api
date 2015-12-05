@@ -1,10 +1,18 @@
 package org.cuacfm.contests.api.model;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class Voter {
 	private String code;
-	private Map<Category, Vote> votes;
+	private Map<Category, Vote> votes = new HashMap<Category, Vote>();
+
+	public Voter() {
+	}
+
+	public Voter(String substring) {
+		this.code = substring;
+	}
 
 	public String getCode() {
 		return code;

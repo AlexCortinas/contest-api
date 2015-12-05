@@ -1,24 +1,22 @@
 package org.cuacfm.contests.api.model;
 
 import java.util.ArrayList;
-import java.util.Collection;
-
-import org.cuacfm.contests.api.util.StringUtils;
+import java.util.List;
 
 public class Category {
 	private String id;
 	private String name;
 	private String desc;
 
-	private Collection<Candidate> candidates = new ArrayList<Candidate>();
+	private List<Candidate> candidates = new ArrayList<Candidate>();
 
 	public Category() {
 	}
 
-	public Category(String name) {
-		this.id = StringUtils.normalizeString(name);
+	public Category(String id, String name, String desc) {
+		this.id = id;
 		this.name = name;
-		this.desc = null;
+		this.desc = desc;
 	}
 
 	public String getId() {
@@ -45,11 +43,11 @@ public class Category {
 		this.desc = desc;
 	}
 
-	public Collection<Candidate> getCandidates() {
+	public List<Candidate> getCandidates() {
 		return candidates;
 	}
 
-	public void setCandidates(Collection<Candidate> candidates) {
+	public void setCandidates(List<Candidate> candidates) {
 		this.candidates = candidates;
 	}
 
