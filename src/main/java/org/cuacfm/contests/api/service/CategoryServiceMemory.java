@@ -20,7 +20,8 @@ public class CategoryServiceMemory implements ICategoryService {
 
 	@Override
 	public Category getCategoryByContestAndId(String contest, String category) {
-		return getAllCategoriesByContest(contest).stream().filter(c -> c.getId() == category).findFirst().orElse(null);
+		return getAllCategoriesByContest(contest).stream().filter(c -> c.getId().equals(category)).findFirst()
+				.orElse(null);
 	}
 
 	@Override
@@ -30,7 +31,7 @@ public class CategoryServiceMemory implements ICategoryService {
 
 	@Override
 	public void deleteCategoryByContestAndId(String contest, String category) {
-		contestService.getContestById(contest).getCategories().removeIf(c -> c.getId() == category);
+		contestService.getContestById(contest).getCategories().removeIf(c -> c.getId().equals(category));
 	}
 
 	@Override

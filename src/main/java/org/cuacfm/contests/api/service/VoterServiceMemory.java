@@ -47,12 +47,12 @@ public class VoterServiceMemory implements IVoterService {
 
 	@Override
 	public void disableVoter(String contest, String voter) {
-		voters.get(contest).removeIf(v -> v.getCode() == voter);
+		voters.get(contest).removeIf(v -> v.getCode().equals(voter));
 	}
 
 	@Override
 	public Voter getVoterByContestAndCode(String contest, String voter) {
-		return voters.get(contest).stream().filter(v -> v.getCode() == voter).findFirst().orElse(null);
+		return voters.get(contest).stream().filter(v -> v.getCode().equals(voter)).findFirst().orElse(null);
 	}
 
 	@Override

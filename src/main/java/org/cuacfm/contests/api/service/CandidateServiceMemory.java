@@ -26,7 +26,7 @@ public class CandidateServiceMemory implements ICandidateService {
 	@Override
 	public void removeCandidate(String contest, String category, String candidate) {
 		categoryService.getCategoryByContestAndId(contest, category).getCandidates()
-				.removeIf(c -> c.getName() == candidate);
+				.removeIf(c -> c.getName().equals(candidate));
 	}
 
 }
