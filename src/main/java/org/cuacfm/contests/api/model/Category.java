@@ -8,7 +8,7 @@ public class Category {
 	private String name;
 	private String desc;
 
-	private List<Candidate> candidates = new ArrayList<Candidate>();
+	private List<String> candidates = new ArrayList<String>();
 
 	public Category() {
 	}
@@ -43,11 +43,11 @@ public class Category {
 		this.desc = desc;
 	}
 
-	public List<Candidate> getCandidates() {
+	public List<String> getCandidates() {
 		return candidates;
 	}
 
-	public void setCandidates(List<Candidate> candidates) {
+	public void setCandidates(List<String> candidates) {
 		this.candidates = candidates;
 	}
 

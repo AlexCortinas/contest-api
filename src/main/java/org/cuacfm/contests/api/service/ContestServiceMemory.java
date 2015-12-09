@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.cuacfm.contests.api.model.Candidate;
 import org.cuacfm.contests.api.model.Category;
 import org.cuacfm.contests.api.model.Contest;
 import org.springframework.stereotype.Service;
@@ -20,13 +19,16 @@ public class ContestServiceMemory implements IContestService {
 		contests.put("OSCUACS15", oscuacs);
 		Category mejorLocutor = new Category("MEJOR_LOCUTOR", "Mejor locutor", "El mejor locutor");
 		Category mejorTecnico = new Category("MEJOR_TECNICO", "Mejor técnico", "El mejor técnico");
+		Category mejorPrograma = new Category("MEJOR_PROGRAMA", "Mejor programa", "El mejor programa");
 		oscuacs.getCategories().add(mejorTecnico);
 		oscuacs.getCategories().add(mejorLocutor);
-		mejorLocutor.getCandidates().add(new Candidate("Diego de la Vega"));
-		mejorLocutor.getCandidates().add(new Candidate("Iverson con Ñ"));
-		mejorLocutor.getCandidates().add(new Candidate("Isa Lema"));
-		mejorTecnico.getCandidates().add(new Candidate("Chema Casanova"));
-		mejorTecnico.getCandidates().add(new Candidate("Mariano"));
+		oscuacs.getCategories().add(mejorPrograma);
+		mejorLocutor.getCandidates().add("Diego de la Vega");
+		mejorLocutor.getCandidates().add("Iverson con Ñ");
+		mejorLocutor.getCandidates().add("Isa Lema");
+		mejorTecnico.getCandidates().add("Chema Casanova");
+		mejorTecnico.getCandidates().add("Mariano");
+		mejorPrograma.getCandidates().add("Spoiler");
 	}
 
 	@Override
