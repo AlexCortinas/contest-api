@@ -33,8 +33,7 @@ public class VoterResource {
 
 	@ApiOperation(nickname = "Vote", value = "Vote")
 	@RequestMapping(value = "/{show}/vote", method = RequestMethod.POST)
-	public ResponseEntity<?> vote(@PathVariable String contest, @PathVariable String show,
-			@RequestBody Map<String, Vote> votes) {
+	public ResponseEntity<?> vote(@PathVariable String show, @RequestBody Map<String, Vote> votes) {
 
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
