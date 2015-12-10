@@ -24,13 +24,13 @@ public class CandidateResource {
 	@Inject
 	private ICandidateService candidateService;
 
-	@ApiOperation(value = "List all candidates of the category")
+	@ApiOperation(nickname = "List candidates", value = "List all candidates of the category")
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<String>> getAll(@PathVariable String contest, @PathVariable String category) {
 		return new ResponseEntity<>(candidateService.getByContestAndCategory(contest, category), HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "Add a new candidate")
+	@ApiOperation(nickname = "Add candidate", value = "Add a new candidate")
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<?> create(@PathVariable String contest, @PathVariable String category,
 			@RequestBody String item) throws URISyntaxException {
@@ -39,7 +39,7 @@ public class CandidateResource {
 				.created(new URI(String.format("/api/contest/%s/category/%s/candidates", contest, category))).build();
 	}
 
-	@ApiOperation(value = "Remove a candidate")
+	@ApiOperation(nickname = "Remove candidate", value = "Remove a candidate")
 	@RequestMapping(method = RequestMethod.DELETE)
 	public void remove(@PathVariable String contest, @PathVariable String category, @RequestBody String item) {
 		candidateService.removeCandidate(contest, category, item);

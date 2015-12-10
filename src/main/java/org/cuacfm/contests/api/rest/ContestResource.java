@@ -26,47 +26,47 @@ public class ContestResource {
 	@Inject
 	private IContestService contestService;
 
-	@ApiOperation(value = "List all contests")
+	@ApiOperation(nickname = "List contests", value = "List all contests")
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<Contest>> getAll() {
 		return new ResponseEntity<>(contestService.getAllContests(), HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "Get a contest")
+	@ApiOperation(nickname = "Get contest", value = "Get a contest")
 	@RequestMapping(value = "/{contest}", method = RequestMethod.GET)
 	public ResponseEntity<Contest> get(@PathVariable String contest) {
 		return Optional.ofNullable(contestService.getContestById(contest))
 				.map(c -> new ResponseEntity<>(c, HttpStatus.OK)).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
 
-	@ApiOperation(value = "Create a contest")
+	@ApiOperation(nickname = "Create contest", value = "Create a contest")
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<?> create(@RequestBody Contest item) throws URISyntaxException {
 		contestService.createContest(item);
 		return ResponseEntity.created(new URI(String.format("/api/contests/%s", item.getId()))).build();
 	}
 
-	@ApiOperation(value = "Update a contest")
+	@ApiOperation(nickname = "Update contest", value = "Update a contest")
 	@RequestMapping(value = "/{contest}", method = RequestMethod.PUT)
 	public ResponseEntity<?> update(@PathVariable String contest, @RequestBody Contest item) {
 		contestService.updateContestById(contest, item);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "Delete a contest")
+	@ApiOperation(nickname = "Delete contest", value = "Delete a contest")
 	@RequestMapping(value = "/{contest}", method = RequestMethod.DELETE)
 	public void delete(@PathVariable String contest) {
 		contestService.deleteContestById(contest);
 	}
 
-	@ApiOperation(value = "Start votation period")
+	@ApiOperation(nickname = "Start votations", value = "Start votation period")
 	@RequestMapping(value = "/{contest}/voting", method = RequestMethod.PUT)
 	public ResponseEntity<?> startVoting(@PathVariable String contest) {
 		contestService.startVotingContestById(contest);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "Stop votation period")
+	@ApiOperation(nickname = "Stop votations", value = "Stop votation period")
 	@RequestMapping(value = "/{contest}/voting", method = RequestMethod.DELETE)
 	public ResponseEntity<?> stopVoting(@PathVariable String contest) {
 		contestService.stopVotingContestById(contest);

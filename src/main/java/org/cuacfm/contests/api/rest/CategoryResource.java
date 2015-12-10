@@ -26,20 +26,20 @@ public class CategoryResource {
 	@Inject
 	private ICategoryService categoryService;
 
-	@ApiOperation(value = "List all categories of the contest")
+	@ApiOperation(nickname = "List categories", value = "List all categories of the contest")
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<Category>> getAll(@PathVariable String contest) {
 		return new ResponseEntity<>(categoryService.getAllCategoriesByContest(contest), HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "Get a category")
+	@ApiOperation(nickname = "Get category", value = "Get a category")
 	@RequestMapping(value = "/{category}", method = RequestMethod.GET)
 	public ResponseEntity<Category> get(@PathVariable String contest, @PathVariable String category) {
 		return Optional.ofNullable(categoryService.getCategoryByContestAndId(contest, category))
 				.map(c -> new ResponseEntity<>(c, HttpStatus.OK)).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
 
-	@ApiOperation(value = "Create a category")
+	@ApiOperation(nickname = "Create category", value = "Create a category")
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<?> create(@PathVariable String contest, @RequestBody Category item)
 			throws URISyntaxException {
@@ -48,7 +48,7 @@ public class CategoryResource {
 				.build();
 	}
 
-	@ApiOperation(value = "Update a category")
+	@ApiOperation(nickname = "Update category", value = "Update a category")
 	@RequestMapping(value = "/{category}", method = RequestMethod.PUT)
 	public ResponseEntity<?> update(@PathVariable String contest, @PathVariable String category,
 			@RequestBody Category item) {
@@ -56,7 +56,7 @@ public class CategoryResource {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "Delete a category")
+	@ApiOperation(nickname = "Delete category", value = "Delete a category")
 	@RequestMapping(value = "/{category}", method = RequestMethod.DELETE)
 	public void delete(@PathVariable String contest, @PathVariable String category) {
 		categoryService.deleteCategoryByContestAndId(contest, category);
