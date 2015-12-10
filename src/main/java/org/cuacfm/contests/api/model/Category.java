@@ -68,4 +68,10 @@ public class Category {
 		getCandidates().forEach(s -> r.getCandidates().add(s));
 		return r;
 	}
+
+	@Override
+	public String toString() {
+		return id;
+	}
+
 }

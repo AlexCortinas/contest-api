@@ -1,10 +1,12 @@
 package org.cuacfm.contests.api.service;
 
+import java.util.Map;
 import java.util.Set;
 
 import org.cuacfm.contests.api.model.Contest;
 import org.cuacfm.contests.api.model.Person;
 import org.cuacfm.contests.api.model.RadioShow;
+import org.cuacfm.contests.api.model.Vote;
 
 public interface IRadioShowService {
 
@@ -19,5 +21,7 @@ public interface IRadioShowService {
 	void addMember(String contest, String show, Person person);
 
 	Contest getContestByShowCode(String code);
+
+	void vote(String code, Map<String, Vote> votes);
 
 }

@@ -12,15 +12,17 @@ import javax.inject.Inject;
 import org.cuacfm.contests.api.model.Contest;
 import org.cuacfm.contests.api.model.Person;
 import org.cuacfm.contests.api.model.RadioShow;
+import org.cuacfm.contests.api.model.Vote;
 import org.springframework.stereotype.Service;
-
-import sun.reflect.ReflectionFactory.GetReflectionFactoryAction;
 
 @Service
 public class RadioShowServiceMemory implements IRadioShowService {
 
 	@Inject
 	private IContestService contestService;
+
+	@Inject
+	private ICategoryService categoryService;
 
 	private static Map<String, Set<RadioShow>> shows = new HashMap<String, Set<RadioShow>>();
 
@@ -62,8 +64,13 @@ public class RadioShowServiceMemory implements IRadioShowService {
 		return r;
 	}
 
+	private RadioShow getShowByCode(String code) {
+		return shows.values().stream().flatMap(l -> l.stream()).filter(r -> r.getCode().equals(code)).findFirst()
+				.orElse(null);
+	}
+
 	private boolean codeBusy(String code) {
-		return shows.values().stream().flatMap(l -> l.stream()).anyMatch(r -> r.getCode().equals(code));
+		return getShowByCode(code) != null;
 	}
 
 	@Override
@@ -110,4 +117,12 @@ public class RadioShowServiceMemory implements IRadioShowService {
 		return null;
 	}
 
+	@Override
+	public void vote(String code, Map<String, Vote> votes) {
+		Contest c = getContestByShowCodeWithoutModification(code);
+		RadioShow show = getShowByCode(code);
+		for (Entry<String, Vote> ent : votes.entrySet()) {
+			show.getVotes().put(categoryService.getCategoryByContestAndId(c.getId(), ent.getKey()), ent.getValue());
+		}
+	}
 }
