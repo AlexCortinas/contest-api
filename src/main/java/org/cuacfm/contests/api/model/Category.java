@@ -1,16 +1,26 @@
 package org.cuacfm.contests.api.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
+
+import org.cuacfm.contests.api.StringUtils;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Category {
 	private String id;
 	private String name;
-	private String desc;
+	private String desc = "";
 
-	private List<String> candidates = new ArrayList<String>();
+	private Set<String> candidates = new HashSet<String>();
 
 	public Category() {
+	}
+
+	public Category(String name) {
+		this.id = StringUtils.normalizeString(name);
+		this.name = name;
 	}
 
 	public Category(String id, String name, String desc) {
@@ -43,12 +53,19 @@ public class Category {
 		this.desc = desc;
 	}
 
-	public List<String> getCandidates() {
+	@JsonProperty
+	public Set<String> getCandidates() {
 		return candidates;
 	}
 
-	public void setCandidates(List<String> candidates) {
+	@JsonIgnore
+	public void setCandidates(Set<String> candidates) {
 		this.candidates = candidates;
 	}
 
+	public Category clone() {
+		Category r = new Category(id, name, desc);
+		getCandidates().forEach(s -> r.getCandidates().add(s));
+		return r;
+	}
 }

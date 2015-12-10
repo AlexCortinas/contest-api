@@ -1,14 +1,20 @@
 package org.cuacfm.contests.api.model;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
+import org.cuacfm.contests.api.StringUtils;
+
 public class RadioShow {
+	private String id;
 	private String name;
 	private String code;
-	private boolean hasVoted = true;
+	private boolean hasVoted = false;
 	private Map<Category, Vote> votes = new HashMap<Category, Vote>();
+	private Set<Person> members = new HashSet<Person>();
 
 	public RadioShow() {
 		this.code = UUID.randomUUID().toString().substring(0, 8);
@@ -16,7 +22,16 @@ public class RadioShow {
 
 	public RadioShow(String name) {
 		this();
+		this.id = StringUtils.normalizeString(name);
 		this.name = name;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -37,6 +52,39 @@ public class RadioShow {
 
 	public Map<Category, Vote> getVotes() {
 		return votes;
+	}
+
+	public Set<Person> getMembers() {
+		return members;
+	}
+
+	public void setMembers(Set<Person> members) {
+		this.members = members;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		RadioShow other = (RadioShow) obj;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		return true;
 	}
 
 }

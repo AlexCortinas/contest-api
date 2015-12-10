@@ -8,6 +8,7 @@ import java.util.Optional;
 import javax.inject.Inject;
 
 import org.cuacfm.contests.api.model.Contest;
+import org.cuacfm.contests.api.model.ValueJSON;
 import org.cuacfm.contests.api.service.IContestService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,6 +45,13 @@ public class ContestResource {
 	public ResponseEntity<?> create(@RequestBody Contest item) throws URISyntaxException {
 		contestService.createContest(item);
 		return ResponseEntity.created(new URI(String.format("/api/contests/%s", item.getId()))).build();
+	}
+
+	@ApiOperation(nickname = "Create contest by name", value = "Create a contest just by name")
+	@RequestMapping(value = "/quick", method = RequestMethod.POST)
+	public ResponseEntity<?> create(@RequestBody ValueJSON name) throws URISyntaxException {
+		Contest c = contestService.createContest(name.getValue());
+		return ResponseEntity.created(new URI(String.format("/api/contests/%s", c.getId()))).build();
 	}
 
 	@ApiOperation(nickname = "Update contest", value = "Update a contest")

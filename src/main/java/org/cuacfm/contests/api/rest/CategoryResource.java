@@ -8,6 +8,7 @@ import java.util.Optional;
 import javax.inject.Inject;
 
 import org.cuacfm.contests.api.model.Category;
+import org.cuacfm.contests.api.model.ValueJSON;
 import org.cuacfm.contests.api.service.ICategoryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,6 +46,15 @@ public class CategoryResource {
 			throws URISyntaxException {
 		categoryService.createCategory(contest, item);
 		return ResponseEntity.created(new URI(String.format("/api/contest/%s/category/%s", contest, item.getId())))
+				.build();
+	}
+
+	@ApiOperation(nickname = "Create category by name", value = "Create a category just by name")
+	@RequestMapping(value = "/quick", method = RequestMethod.POST)
+	public ResponseEntity<?> create(@PathVariable String contest, @RequestBody ValueJSON name)
+			throws URISyntaxException {
+		Category c = categoryService.createCategory(contest, name.getValue());
+		return ResponseEntity.created(new URI(String.format("/api/contest/%s/category/%s", contest, c.getId())))
 				.build();
 	}
 

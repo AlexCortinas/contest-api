@@ -1,10 +1,11 @@
 package org.cuacfm.contests.api.service;
 
 import java.util.List;
+import java.util.Set;
 
 public interface ICandidateService {
 
-	List<String> getByContestAndCategory(String contest, String category);
+	Set<String> getByContestAndCategory(String contest, String category);
 
 	void createNewCandidate(String contest, String category, String item);
 

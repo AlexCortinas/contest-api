@@ -2,10 +2,11 @@ package org.cuacfm.contests.api.rest;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
+import java.util.Set;
 
 import javax.inject.Inject;
 
+import org.cuacfm.contests.api.model.ValueJSON;
 import org.cuacfm.contests.api.service.ICandidateService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,22 +27,22 @@ public class CandidateResource {
 
 	@ApiOperation(nickname = "List candidates", value = "List all candidates of the category")
 	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<List<String>> getAll(@PathVariable String contest, @PathVariable String category) {
+	public ResponseEntity<Set<String>> getAll(@PathVariable String contest, @PathVariable String category) {
 		return new ResponseEntity<>(candidateService.getByContestAndCategory(contest, category), HttpStatus.OK);
 	}
 
 	@ApiOperation(nickname = "Add candidate", value = "Add a new candidate")
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<?> create(@PathVariable String contest, @PathVariable String category,
-			@RequestBody String item) throws URISyntaxException {
-		candidateService.createNewCandidate(contest, category, item);
+			@RequestBody ValueJSON item) throws URISyntaxException {
+		candidateService.createNewCandidate(contest, category, item.getValue());
 		return ResponseEntity
 				.created(new URI(String.format("/api/contest/%s/category/%s/candidates", contest, category))).build();
 	}
 
 	@ApiOperation(nickname = "Remove candidate", value = "Remove a candidate")
 	@RequestMapping(method = RequestMethod.DELETE)
-	public void remove(@PathVariable String contest, @PathVariable String category, @RequestBody String item) {
-		candidateService.removeCandidate(contest, category, item);
+	public void remove(@PathVariable String contest, @PathVariable String category, @RequestBody ValueJSON item) {
+		candidateService.removeCandidate(contest, category, item.getValue());
 	}
 }

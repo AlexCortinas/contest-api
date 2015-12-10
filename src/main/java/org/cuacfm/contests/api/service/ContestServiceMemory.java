@@ -20,9 +20,9 @@ public class ContestServiceMemory implements IContestService {
 		Category mejorLocutor = new Category("MEJOR_LOCUTOR", "Mejor locutor", "El mejor locutor");
 		Category mejorTecnico = new Category("MEJOR_TECNICO", "Mejor técnico", "El mejor técnico");
 		Category mejorPrograma = new Category("MEJOR_PROGRAMA", "Mejor programa", "El mejor programa");
-		oscuacs.getCategories().add(mejorTecnico);
-		oscuacs.getCategories().add(mejorLocutor);
-		oscuacs.getCategories().add(mejorPrograma);
+		oscuacs.addCategory(mejorTecnico);
+		oscuacs.addCategory(mejorLocutor);
+		oscuacs.addCategory(mejorPrograma);
 		mejorLocutor.getCandidates().add("Diego de la Vega");
 		mejorLocutor.getCandidates().add("Iverson con Ñ");
 		mejorLocutor.getCandidates().add("Isa Lema");
@@ -42,8 +42,15 @@ public class ContestServiceMemory implements IContestService {
 	}
 
 	@Override
-	public void createContest(Contest item) {
+	public Contest createContest(Contest item) {
 		contests.put(item.getId(), item);
+		return item;
+	}
+
+	@Override
+	public Contest createContest(String name) {
+		Contest r = new Contest(name);
+		return createContest(r);
 	}
 
 	@Override

@@ -10,7 +10,9 @@ public interface IContestService {
 
 	Contest getContestById(String contest);
 
-	void createContest(Contest item);
+	Contest createContest(Contest item);
+
+	Contest createContest(String name);
 
 	void updateContestById(String contest, Contest item);
 

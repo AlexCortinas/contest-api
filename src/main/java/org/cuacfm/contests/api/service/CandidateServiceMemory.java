@@ -1,6 +1,6 @@
 package org.cuacfm.contests.api.service;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -13,7 +13,7 @@ public class CandidateServiceMemory implements ICandidateService {
 	private ICategoryService categoryService;
 
 	@Override
-	public List<String> getByContestAndCategory(String contest, String category) {
+	public Set<String> getByContestAndCategory(String contest, String category) {
 		return categoryService.getCategoryByContestAndId(contest, category).getCandidates();
 	}
 

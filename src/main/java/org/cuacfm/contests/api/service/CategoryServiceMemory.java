@@ -25,8 +25,15 @@ public class CategoryServiceMemory implements ICategoryService {
 	}
 
 	@Override
-	public void createCategory(String contest, Category item) {
-		contestService.getContestById(contest).getCategories().add(item);
+	public Category createCategory(String contest, Category item) {
+		contestService.getContestById(contest).addCategory(item);
+		return item;
+	}
+
+	@Override
+	public Category createCategory(String contest, String name) {
+		Category c = new Category(name);
+		return createCategory(contest, c);
 	}
 
 	@Override

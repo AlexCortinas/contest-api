@@ -10,7 +10,9 @@ public interface ICategoryService {
 
 	Category getCategoryByContestAndId(String contest, String category);
 
-	void createCategory(String contest, Category item);
+	Category createCategory(String contest, Category item);
+
+	Category createCategory(String contest, String name);
 
 	void deleteCategoryByContestAndId(String contest, String category);
 
