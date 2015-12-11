@@ -7,6 +7,7 @@ import javax.inject.Inject;
 
 import org.cuacfm.contests.api.model.Vote;
 import org.cuacfm.contests.api.service.IRadioShowService;
+import org.cuacfm.contests.api.service.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,9 +34,9 @@ public class VoterResource {
 
 	@ApiOperation(nickname = "Vote", value = "Vote")
 	@RequestMapping(value = "/{code}/vote", method = RequestMethod.POST)
-	public ResponseEntity<?> vote(@PathVariable String code, @RequestBody Map<String, Vote> votes) {
+	public ResponseEntity<?> vote(@PathVariable String code, @RequestBody Map<String, Vote> votes)
+			throws NotFoundException {
 		radioShowService.vote(code, votes);
-
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }

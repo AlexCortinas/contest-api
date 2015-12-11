@@ -7,6 +7,7 @@ import org.cuacfm.contests.api.model.Contest;
 import org.cuacfm.contests.api.model.Person;
 import org.cuacfm.contests.api.model.RadioShow;
 import org.cuacfm.contests.api.model.Vote;
+import org.cuacfm.contests.api.service.exception.NotFoundException;
 
 public interface IRadioShowService {
 
@@ -22,6 +23,6 @@ public interface IRadioShowService {
 
 	Contest getContestByShowCode(String code);
 
-	void vote(String code, Map<String, Vote> votes);
+	void vote(String code, Map<String, Vote> votes) throws NotFoundException;
 
 }

@@ -29,6 +29,13 @@ public class Category {
 		this.desc = desc;
 	}
 
+	public Category(Category cat) {
+		this.id = cat.getId();
+		this.name = cat.getName();
+		this.desc = cat.getDesc();
+		cat.getCandidates().forEach(s -> this.candidates.add(s));
+	}
+
 	public String getId() {
 		return id;
 	}

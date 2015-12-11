@@ -8,12 +8,15 @@ import java.util.UUID;
 
 import org.cuacfm.contests.api.StringUtils;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class RadioShow {
 	private String id;
 	private String name;
 	private String code;
 	private boolean hasVoted = false;
-	private Map<Category, Vote> votes = new HashMap<Category, Vote>();
+	private Map<String, Vote> votes = new HashMap<String, Vote>();
 	private Set<Person> members = new HashSet<Person>();
 
 	public RadioShow() {
@@ -46,11 +49,17 @@ public class RadioShow {
 		return code;
 	}
 
+	@JsonProperty
 	public boolean isHasVoted() {
 		return hasVoted;
 	}
 
-	public Map<Category, Vote> getVotes() {
+	@JsonIgnore
+	public void setHasVoted(boolean v) {
+		this.hasVoted = v;
+	}
+
+	public Map<String, Vote> getVotes() {
 		return votes;
 	}
 

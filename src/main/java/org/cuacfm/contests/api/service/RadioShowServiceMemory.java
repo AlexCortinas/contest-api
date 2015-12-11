@@ -13,6 +13,7 @@ import org.cuacfm.contests.api.model.Contest;
 import org.cuacfm.contests.api.model.Person;
 import org.cuacfm.contests.api.model.RadioShow;
 import org.cuacfm.contests.api.model.Vote;
+import org.cuacfm.contests.api.service.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -118,11 +119,13 @@ public class RadioShowServiceMemory implements IRadioShowService {
 	}
 
 	@Override
-	public void vote(String code, Map<String, Vote> votes) {
+	public void vote(String code, Map<String, Vote> votes) throws NotFoundException {
 		Contest c = getContestByShowCodeWithoutModification(code);
 		RadioShow show = getShowByCode(code);
 		for (Entry<String, Vote> ent : votes.entrySet()) {
-			show.getVotes().put(categoryService.getCategoryByContestAndId(c.getId(), ent.getKey()), ent.getValue());
+			show.getVotes().put(categoryService.getCategoryByContestAndId(c.getId(), ent.getKey()).getId(),
+					ent.getValue());
 		}
+		show.setHasVoted(true);
 	}
 }

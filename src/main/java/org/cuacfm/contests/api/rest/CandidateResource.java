@@ -8,6 +8,7 @@ import javax.inject.Inject;
 
 import org.cuacfm.contests.api.model.ValueJSON;
 import org.cuacfm.contests.api.service.ICandidateService;
+import org.cuacfm.contests.api.service.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,14 +28,15 @@ public class CandidateResource {
 
 	@ApiOperation(nickname = "List candidates", value = "List all candidates of the category")
 	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<Set<String>> getAll(@PathVariable String contest, @PathVariable String category) {
+	public ResponseEntity<Set<String>> getAll(@PathVariable String contest, @PathVariable String category)
+			throws NotFoundException {
 		return new ResponseEntity<>(candidateService.getByContestAndCategory(contest, category), HttpStatus.OK);
 	}
 
 	@ApiOperation(nickname = "Add candidate", value = "Add a new candidate")
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<?> create(@PathVariable String contest, @PathVariable String category,
-			@RequestBody ValueJSON item) throws URISyntaxException {
+			@RequestBody ValueJSON item) throws URISyntaxException, NotFoundException {
 		candidateService.createNewCandidate(contest, category, item.getValue());
 		return ResponseEntity
 				.created(new URI(String.format("/api/contest/%s/category/%s/candidates", contest, category))).build();
@@ -42,7 +44,8 @@ public class CandidateResource {
 
 	@ApiOperation(nickname = "Remove candidate", value = "Remove a candidate")
 	@RequestMapping(method = RequestMethod.DELETE)
-	public void remove(@PathVariable String contest, @PathVariable String category, @RequestBody ValueJSON item) {
+	public void remove(@PathVariable String contest, @PathVariable String category, @RequestBody ValueJSON item)
+			throws NotFoundException {
 		candidateService.removeCandidate(contest, category, item.getValue());
 	}
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.cuacfm.contests.api.model.Category;
+import org.cuacfm.contests.api.service.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,9 +20,9 @@ public class CategoryServiceMemory implements ICategoryService {
 	}
 
 	@Override
-	public Category getCategoryByContestAndId(String contest, String category) {
+	public Category getCategoryByContestAndId(String contest, String category) throws NotFoundException {
 		return getAllCategoriesByContest(contest).stream().filter(c -> c.getId().equals(category)).findFirst()
-				.orElse(null);
+				.orElseThrow(() -> new NotFoundException("Category not found"));
 	}
 
 	@Override

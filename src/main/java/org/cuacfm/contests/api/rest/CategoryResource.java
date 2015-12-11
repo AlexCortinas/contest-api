@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import org.cuacfm.contests.api.model.Category;
 import org.cuacfm.contests.api.model.ValueJSON;
 import org.cuacfm.contests.api.service.ICategoryService;
+import org.cuacfm.contests.api.service.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,7 +36,8 @@ public class CategoryResource {
 
 	@ApiOperation(nickname = "Get category", value = "Get a category")
 	@RequestMapping(value = "/{category}", method = RequestMethod.GET)
-	public ResponseEntity<Category> get(@PathVariable String contest, @PathVariable String category) {
+	public ResponseEntity<Category> get(@PathVariable String contest, @PathVariable String category)
+			throws NotFoundException {
 		return Optional.ofNullable(categoryService.getCategoryByContestAndId(contest, category))
 				.map(c -> new ResponseEntity<>(c, HttpStatus.OK)).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
