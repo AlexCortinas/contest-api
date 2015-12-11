@@ -4,24 +4,23 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import sun.java2d.xr.MutableInteger;
-
 public class CategoryPostVoting extends Category {
-	private Map<String, MutableInteger> results = new HashMap<String, MutableInteger>();
+	private Map<String, AtomicInteger> results = new HashMap<String, AtomicInteger>();
 
 	public CategoryPostVoting() {
 	}
 
 	public CategoryPostVoting(Category cat) {
 		super(cat);
-		this.getCandidates().forEach(s -> results.put(s, new MutableInteger(0)));
+		this.getCandidates().forEach(s -> results.put(s, new AtomicInteger(0)));
 	}
 
 	@JsonIgnore
-	public Map<String, MutableInteger> getResultsBrute() {
+	public Map<String, AtomicInteger> getResultsBrute() {
 		return results;
 	}
 
@@ -33,7 +32,7 @@ public class CategoryPostVoting extends Category {
 			}
 		});
 		results.entrySet().forEach(entry -> {
-			r.put(entry.getValue().getValue(), entry.getKey());
+			r.put(entry.getValue().intValue(), entry.getKey());
 		});
 		return r;
 	}

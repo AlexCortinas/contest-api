@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
@@ -15,8 +16,6 @@ import org.cuacfm.contests.api.model.Contest;
 import org.cuacfm.contests.api.model.RadioShow;
 import org.cuacfm.contests.api.model.Vote;
 import org.springframework.stereotype.Service;
-
-import sun.java2d.xr.MutableInteger;
 
 @Service
 public class ContestServiceMemory implements IContestService {
@@ -113,7 +112,7 @@ public class ContestServiceMemory implements IContestService {
 		c.setCategories(categories);
 	}
 
-	private void addPoints(MutableInteger i, int points) {
-		i.setValue(i.getValue() + points);
+	private void addPoints(AtomicInteger i, int points) {
+		i.set(i.intValue() + points);
 	}
 }
