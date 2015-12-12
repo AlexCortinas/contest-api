@@ -2,7 +2,6 @@ package org.cuacfm.contests.api.service;
 
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Optional;
 import java.util.Set;
 
 import javax.inject.Inject;
@@ -11,25 +10,13 @@ import org.cuacfm.contests.api.model.Contest;
 import org.cuacfm.contests.api.model.RadioShow;
 import org.cuacfm.contests.api.model.Vote;
 import org.cuacfm.contests.api.service.exception.NotFoundException;
+import org.springframework.stereotype.Service;
 
-public class RadioShowServiceMemory implements RadioShowService {
+@Service
+public class RadioShowServiceMongo implements RadioShowService {
 
 	@Inject
 	private ContestService contestService;
-
-	@Inject
-	private CategoryService categoryService;
-
-	// private static Map<String, Set<RadioShow>> shows = new HashMap<String,
-	// Set<RadioShow>>();
-
-	// static {
-	// Set<RadioShow> showsOscuacs = new HashSet<RadioShow>();
-	// shows.put("OSCUACS15", showsOscuacs);
-	// showsOscuacs.add(new RadioShow("Spoiler"));
-	// showsOscuacs.add(new RadioShow("Alegría"));
-	// showsOscuacs.add(new RadioShow("Falso 9"));
-	// }
 
 	@Override
 	public Set<RadioShow> getAllShowsByContest(String contest) throws NotFoundException {
@@ -38,18 +25,21 @@ public class RadioShowServiceMemory implements RadioShowService {
 
 	@Override
 	public RadioShow getShowByContestAndCode(String contest, String code) throws NotFoundException {
-		return contestService.findOne(contest).getShows().stream().filter(s -> s.getCode().equals(code))
-				.findFirst().orElse(null);
+		return contestService.findOne(contest).getShows().stream().filter(s -> s.getCode().equals(code)).findFirst()
+				.orElse(null);
 	}
 
 	@Override
 	public RadioShow createShow(String contest, String name) throws NotFoundException {
+		Contest cont = contestService.findOne(contest);
+
 		RadioShow r = new RadioShow(name);
 		while (codeBusy(r.getCode())) {
 			r = new RadioShow(name);
 		}
 
-		contestService.findOne(contest).getShows().add(r);
+		cont.getShows().add(r);
+		contestService.save(cont);
 
 		return r;
 	}
@@ -65,17 +55,18 @@ public class RadioShowServiceMemory implements RadioShowService {
 
 	@Override
 	public void deleteShowByContestAndId(String contest, String code) throws NotFoundException {
-		contestService.findOne(contest).getShows().removeIf(s -> s.getCode().equals(code));
+		Contest cont = contestService.findOne(contest);
+		cont.getShows().removeIf(s -> s.getCode().equals(code));
+		contestService.save(cont);
 	}
 
 	@Override
 	public void addMember(String contest, String show, String person) throws NotFoundException {
-		Optional.ofNullable(getShowByContestAndName(contest, show)).ifPresent(s -> s.getMembers().add(person));
-	}
-
-	private RadioShow getShowByContestAndName(String contest, String id) throws NotFoundException {
-		return contestService.findOne(contest).getShows().stream().filter(s -> s.getId().equals(id)).findFirst()
-				.orElse(null);
+		Contest cont = contestService.findOne(contest);
+		RadioShow rshow = cont.getShows().stream().filter(s -> s.getId().equals(show)).findFirst()
+				.orElseThrow(() -> new NotFoundException(String.format("Code %s for show not found", show)));
+		rshow.getMembers().add(person);
+		contestService.save(cont);
 	}
 
 	@Override
@@ -108,11 +99,15 @@ public class RadioShowServiceMemory implements RadioShowService {
 	@Override
 	public void vote(String code, Map<String, Vote> votes) throws NotFoundException {
 		Contest c = getContestByShowCodeWithoutModification(code);
-		RadioShow show = getShowByCode(code);
+		RadioShow show = c.getShows().stream().filter(s -> s.getCode().equals(code)).findFirst()
+				.orElseThrow(() -> new NotFoundException(String.format("Code %s for show not found", code)));
 		for (Entry<String, Vote> ent : votes.entrySet()) {
-			show.getVotes().put(categoryService.getCategoryByContestAndId(c.getId(), ent.getKey()).getId(),
-					ent.getValue());
+			if (!c.getCategories().stream().anyMatch(categ -> categ.getId().equals(ent.getKey()))) {
+				new NotFoundException(String.format("Code %s for category not found", ent.getKey()));
+			}
+			show.getVotes().put(ent.getKey(), ent.getValue());
 		}
 		show.setHasVoted(true);
+		contestService.save(c);
 	}
 }

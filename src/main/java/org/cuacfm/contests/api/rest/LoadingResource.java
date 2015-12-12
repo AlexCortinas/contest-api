@@ -2,7 +2,7 @@ package org.cuacfm.contests.api.rest;
 
 import javax.inject.Inject;
 
-import org.cuacfm.contests.api.service.IContestService;
+import org.cuacfm.contests.api.service.ContestService;
 import org.cuacfm.contests.api.service.custom.BulkDataJSON;
 import org.cuacfm.contests.api.service.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
@@ -19,7 +19,7 @@ import io.swagger.annotations.ApiOperation;
 public class LoadingResource {
 
 	@Inject
-	private IContestService contestService;
+	private ContestService contestService;
 
 	@ApiOperation(nickname = "Bulk loading data", value = "Bulk loading data")
 	@RequestMapping(method = RequestMethod.POST)

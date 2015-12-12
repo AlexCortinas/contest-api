@@ -8,7 +8,7 @@ import org.cuacfm.contests.api.model.RadioShow;
 import org.cuacfm.contests.api.model.Vote;
 import org.cuacfm.contests.api.service.exception.NotFoundException;
 
-public interface IRadioShowService {
+public interface RadioShowService {
 
 	Set<RadioShow> getAllShowsByContest(String contest) throws NotFoundException;
 

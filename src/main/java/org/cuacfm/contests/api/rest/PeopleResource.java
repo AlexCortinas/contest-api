@@ -4,7 +4,7 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
-import org.cuacfm.contests.api.service.IPeopleService;
+import org.cuacfm.contests.api.service.PeopleService;
 import org.cuacfm.contests.api.service.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class PeopleResource {
 
 	@Inject
-	private IPeopleService peopleService;
+	private PeopleService peopleService;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<Set<String>> getAll(@PathVariable String contest) throws NotFoundException {

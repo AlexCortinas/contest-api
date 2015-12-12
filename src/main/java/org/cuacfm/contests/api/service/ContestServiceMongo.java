@@ -2,11 +2,9 @@ package org.cuacfm.contests.api.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -15,12 +13,17 @@ import javax.inject.Inject;
 import org.cuacfm.contests.api.model.Category;
 import org.cuacfm.contests.api.model.CategoryPostVoting;
 import org.cuacfm.contests.api.model.Contest;
+import org.cuacfm.contests.api.model.IContestRepository;
 import org.cuacfm.contests.api.model.RadioShow;
 import org.cuacfm.contests.api.model.Vote;
 import org.cuacfm.contests.api.service.custom.BulkDataJSON;
 import org.cuacfm.contests.api.service.exception.NotFoundException;
+import org.springframework.stereotype.Service;
 
-public class ContestServiceMemory implements ContestService {
+import com.google.common.collect.Lists;
+
+@Service
+public class ContestServiceMongo implements ContestService {
 
 	@Inject
 	private RadioShowService radioShowService;
@@ -31,46 +34,25 @@ public class ContestServiceMemory implements ContestService {
 	@Inject
 	private CandidateService candidateService;
 
-	private static Map<String, Contest> contests = new HashMap<String, Contest>();
-
-	// static {
-	// Contest oscuacs = new Contest("OSCUACS15", "Oscuacs 2015", "Los mejores
-	// premios de la emisora");
-	// contests.put("OSCUACS15", oscuacs);
-	// Category mejorLocutor = new Category("MEJOR_LOCUTOR", "Mejor locutor",
-	// "El mejor locutor");
-	// Category mejorTecnico = new Category("MEJOR_TECNICO", "Mejor técnico",
-	// "El mejor técnico");
-	// Category mejorPrograma = new Category("MEJOR_PROGRAMA", "Mejor programa",
-	// "El mejor programa");
-	// oscuacs.addCategory(mejorTecnico);
-	// oscuacs.addCategory(mejorLocutor);
-	// oscuacs.addCategory(mejorPrograma);
-	// mejorLocutor.getCandidates().add("Diego de la Vega");
-	// mejorLocutor.getCandidates().add("Iverson con Ñ");
-	// mejorLocutor.getCandidates().add("Isa Lema");
-	// mejorTecnico.getCandidates().add("Chema Casanova");
-	// mejorTecnico.getCandidates().add("Mariano");
-	// mejorPrograma.getCandidates().add("Spoiler");
-	// }
+	@Inject
+	private IContestRepository contestRepository;
 
 	@Override
 	public List<Contest> getAllContests() {
-		return contests.values().stream().collect(Collectors.toList());
+		return contestRepository.findAll();
 	}
 
 	@Override
 	public Contest findOne(String contest) throws NotFoundException {
-		if (!contests.containsKey(contest)) {
+		Contest r = contestRepository.findOne(contest);
+		if (r == null)
 			throw new NotFoundException("Contest id not found");
-		}
-		return contests.get(contest);
+		return r;
 	}
 
 	@Override
 	public Contest save(Contest item) {
-		contests.put(item.getId(), item);
-		return item;
+		return contestRepository.save(item);
 	}
 
 	@Override
@@ -81,50 +63,51 @@ public class ContestServiceMemory implements ContestService {
 
 	@Override
 	public void updateContestById(String contest, Contest item) {
-		contests.remove(contest);
-		contests.put(item.getId(), item);
+		deleteContestById(contest);
+		save(item);
 	}
 
 	@Override
 	public void deleteContestById(String contest) {
-		// Exception if contests in voting state
-		contests.remove(contest);
+		contestRepository.delete(contest);
 	}
 
 	@Override
 	public void startVotingContestById(String contest) throws NotFoundException {
 		Contest c = findOne(contest);
 		c.setVoting(true);
+		save(c);
 	}
 
 	@Override
-	public void stopVotingContestById(String contest) throws NotFoundException {
+	public void stopVotingContestById(String contestCode) throws NotFoundException {
 
-		Contest c = findOne(contest);
-		c.setVoting(false);
+		Contest contest = findOne(contestCode);
+		contest.setVoting(false);
 
-		List<Category> categories = new ArrayList<Category>();
+		HashMap<String, CategoryPostVoting> categories = new HashMap<String, CategoryPostVoting>();
 		final Map<String, List<Vote>> allVotesByCategory = new HashMap<String, List<Vote>>();
 
-		for (Category cat : c.getCategories())
+		for (Category cat : contest.getCategories()) {
 			allVotesByCategory.put(cat.getId(), new ArrayList<Vote>());
+			categories.put(cat.getId(), new CategoryPostVoting(cat));
+		}
 
-		for (RadioShow rs : radioShowService.getAllShowsByContest(contest))
+		for (RadioShow rs : contest.getShows())
 			for (Entry<String, Vote> ent : rs.getVotes().entrySet())
 				allVotesByCategory.get(ent.getKey()).add(ent.getValue());
 
-		allVotesByCategory.entrySet().forEach(ent -> {
-			final CategoryPostVoting cpv = new CategoryPostVoting(
-					c.getCategories().stream().filter(cat -> cat.getId().equals(ent.getKey())).findFirst().get());
-			ent.getValue().forEach(v -> {
+		for (Entry<String, List<Vote>> ent : allVotesByCategory.entrySet()) {
+			CategoryPostVoting cpv = categories.get(ent.getKey());
+			for (Vote v : ent.getValue()) {
 				addPoints(cpv.getResultsBrute().get(v.getOne()), 1);
 				addPoints(cpv.getResultsBrute().get(v.getTwo()), 2);
 				addPoints(cpv.getResultsBrute().get(v.getThree()), 3);
-			});
-			categories.add(cpv);
-		});
+			}
+		}
 
-		c.setCategories(categories);
+		contest.setCategories(categories.values().stream().collect(Collectors.toList()));
+		contestRepository.save(contest);
 	}
 
 	private void addPoints(AtomicInteger i, int points) {
@@ -169,5 +152,4 @@ public class ContestServiceMemory implements ContestService {
 			}
 		});
 	}
-
 }

@@ -4,7 +4,7 @@ import java.util.Set;
 
 import org.cuacfm.contests.api.service.exception.NotFoundException;
 
-public interface ICandidateService {
+public interface CandidateService {
 
 	Set<String> getByContestAndCategory(String contest, String category) throws NotFoundException;
 

@@ -9,7 +9,7 @@ import javax.inject.Inject;
 
 import org.cuacfm.contests.api.model.Contest;
 import org.cuacfm.contests.api.model.ValueJSON;
-import org.cuacfm.contests.api.service.IContestService;
+import org.cuacfm.contests.api.service.ContestService;
 import org.cuacfm.contests.api.service.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +26,7 @@ import io.swagger.annotations.ApiOperation;
 public class ContestResource {
 
 	@Inject
-	private IContestService contestService;
+	private ContestService contestService;
 
 	@ApiOperation(nickname = "List contests", value = "List all contests")
 	@RequestMapping(method = RequestMethod.GET)
@@ -37,14 +37,14 @@ public class ContestResource {
 	@ApiOperation(nickname = "Get contest", value = "Get a contest")
 	@RequestMapping(value = "/{contest}", method = RequestMethod.GET)
 	public ResponseEntity<Contest> get(@PathVariable String contest) throws NotFoundException {
-		return Optional.ofNullable(contestService.getContestById(contest))
+		return Optional.ofNullable(contestService.findOne(contest))
 				.map(c -> new ResponseEntity<>(c, HttpStatus.OK)).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
 
 	@ApiOperation(nickname = "Create contest", value = "Create a contest")
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<?> create(@RequestBody Contest item) throws URISyntaxException {
-		contestService.createContest(item);
+		contestService.save(item);
 		return ResponseEntity.created(new URI(String.format("/api/contests/%s", item.getId()))).build();
 	}
 

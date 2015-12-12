@@ -5,7 +5,7 @@ import java.util.List;
 import org.cuacfm.contests.api.model.Category;
 import org.cuacfm.contests.api.service.exception.NotFoundException;
 
-public interface ICategoryService {
+public interface CategoryService {
 
 	List<Category> getAllCategoriesByContest(String contest) throws NotFoundException;
 

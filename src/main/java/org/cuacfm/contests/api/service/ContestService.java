@@ -6,13 +6,13 @@ import org.cuacfm.contests.api.model.Contest;
 import org.cuacfm.contests.api.service.custom.BulkDataJSON;
 import org.cuacfm.contests.api.service.exception.NotFoundException;
 
-public interface IContestService {
+public interface ContestService {
 
 	List<Contest> getAllContests();
 
-	Contest getContestById(String contest) throws NotFoundException;
+	Contest findOne(String contest) throws NotFoundException;
 
-	Contest createContest(Contest item);
+	Contest save(Contest item);
 
 	Contest createContest(String name);
 

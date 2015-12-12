@@ -27,6 +27,9 @@ public class RadioShow {
 		this();
 		this.id = StringUtils.normalizeString(name);
 		this.name = name;
+		if (this.name.equals("admin")) {
+			this.code = "admin";
+		}
 	}
 
 	public String getId() {

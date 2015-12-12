@@ -9,7 +9,7 @@ import javax.inject.Inject;
 
 import org.cuacfm.contests.api.model.RadioShow;
 import org.cuacfm.contests.api.model.ValueJSON;
-import org.cuacfm.contests.api.service.IRadioShowService;
+import org.cuacfm.contests.api.service.RadioShowService;
 import org.cuacfm.contests.api.service.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +26,7 @@ import io.swagger.annotations.ApiOperation;
 public class RadioShowResource {
 
 	@Inject
-	private IRadioShowService radioShowService;
+	private RadioShowService radioShowService;
 
 	@ApiOperation(nickname = "List shows", value = "List all shows of the contest")
 	@RequestMapping(method = RequestMethod.GET)

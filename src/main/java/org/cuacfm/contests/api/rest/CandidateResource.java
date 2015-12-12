@@ -7,7 +7,7 @@ import java.util.Set;
 import javax.inject.Inject;
 
 import org.cuacfm.contests.api.model.ValueJSON;
-import org.cuacfm.contests.api.service.ICandidateService;
+import org.cuacfm.contests.api.service.CandidateService;
 import org.cuacfm.contests.api.service.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +24,7 @@ import io.swagger.annotations.ApiOperation;
 public class CandidateResource {
 
 	@Inject
-	private ICandidateService candidateService;
+	private CandidateService candidateService;
 
 	@ApiOperation(nickname = "List candidates", value = "List all candidates of the category")
 	@RequestMapping(method = RequestMethod.GET)

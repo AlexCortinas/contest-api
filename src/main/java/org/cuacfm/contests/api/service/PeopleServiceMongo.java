@@ -9,7 +9,8 @@ import org.cuacfm.contests.api.model.RadioShow;
 import org.cuacfm.contests.api.service.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 
-public class PeopleServiceMemory implements PeopleService {
+@Service
+public class PeopleServiceMongo implements PeopleService {
 
 	@Inject
 	private RadioShowService radioShowService;

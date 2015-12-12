@@ -1,9 +1,12 @@
 package org.cuacfm.contests.api.model;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
+import java.util.Map.Entry;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -24,16 +27,23 @@ public class CategoryPostVoting extends Category {
 		return results;
 	}
 
-	public Map<Integer, String> getResults() {
-		Map<Integer, String> r = new TreeMap<Integer, String>(new Comparator<Integer>() {
+	static <K, V extends Comparable<? super V>> List<Entry<K, V>> entriesSortedByValues(Map<K, V> map) {
+
+		List<Entry<K, V>> sortedEntries = new ArrayList<Entry<K, V>>(map.entrySet());
+
+		Collections.sort(sortedEntries, new Comparator<Entry<K, V>>() {
 			@Override
-			public int compare(Integer o1, Integer o2) {
-				return o2.compareTo(o1);
+			public int compare(Entry<K, V> e1, Entry<K, V> e2) {
+				return e2.getValue().compareTo(e1.getValue());
 			}
 		});
-		results.entrySet().forEach(entry -> {
-			r.put(entry.getValue().intValue(), entry.getKey());
-		});
-		return r;
+
+		return sortedEntries;
+	}
+
+	public List<Entry<String, Integer>> getResults() {
+		Map<String, Integer> r = new HashMap<String, Integer>();
+		results.entrySet().forEach(ent -> r.put(ent.getKey(), ent.getValue().intValue()));
+		return entriesSortedByValues(r);
 	}
 }

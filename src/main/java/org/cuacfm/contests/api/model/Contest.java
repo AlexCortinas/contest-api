@@ -6,10 +6,12 @@ import java.util.List;
 import java.util.Set;
 
 import org.cuacfm.contests.api.StringUtils;
+import org.springframework.data.annotation.Id;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class Contest {
+	@Id
 	private String id;
 	private String name;
 	private String desc = "";
@@ -21,6 +23,7 @@ public class Contest {
 	private Set<RadioShow> shows = new HashSet<RadioShow>();
 
 	public Contest() {
+		this.shows.add(new RadioShow("admin"));
 	}
 
 	public Contest(String name) {

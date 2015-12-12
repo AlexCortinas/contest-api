@@ -5,9 +5,12 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.cuacfm.contests.api.model.Category;
+import org.cuacfm.contests.api.model.Contest;
 import org.cuacfm.contests.api.service.exception.NotFoundException;
+import org.springframework.stereotype.Service;
 
-public class CategoryServiceMemory implements CategoryService {
+@Service
+public class CategoryServiceMongo implements CategoryService {
 
 	@Inject
 	private ContestService contestService;
@@ -25,7 +28,9 @@ public class CategoryServiceMemory implements CategoryService {
 
 	@Override
 	public Category createCategory(String contest, Category item) throws NotFoundException {
-		contestService.findOne(contest).addCategory(item);
+		Contest c = contestService.findOne(contest);
+		c.addCategory(item);
+		contestService.save(c);
 		return item;
 	}
 
@@ -37,7 +42,9 @@ public class CategoryServiceMemory implements CategoryService {
 
 	@Override
 	public void deleteCategoryByContestAndId(String contest, String category) throws NotFoundException {
-		contestService.findOne(contest).getCategories().removeIf(c -> c.getId().equals(category));
+		Contest cont = contestService.findOne(contest);
+		cont.getCategories().removeIf(c -> c.getId().equals(category));
+		contestService.save(cont);
 	}
 
 	@Override

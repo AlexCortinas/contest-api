@@ -4,12 +4,18 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
+import org.cuacfm.contests.api.model.Contest;
 import org.cuacfm.contests.api.service.exception.NotFoundException;
+import org.springframework.stereotype.Service;
 
-public class CandidateServiceMemory implements CandidateService {
+@Service
+public class CandidateServiceMongo implements CandidateService {
 
 	@Inject
 	private CategoryService categoryService;
+
+	@Inject
+	private ContestService contestService;
 
 	@Override
 	public Set<String> getByContestAndCategory(String contest, String category) throws NotFoundException {
@@ -18,12 +24,17 @@ public class CandidateServiceMemory implements CandidateService {
 
 	@Override
 	public void createNewCandidate(String contest, String category, String item) throws NotFoundException {
-		categoryService.getCategoryByContestAndId(contest, category).getCandidates().add(item);
+		Contest cont = contestService.findOne(contest);
+		cont.getCategories().stream().filter(c -> c.getId().equals(category)).findFirst().get().getCandidates()
+				.add(item);
+		contestService.save(cont);
 	}
 
 	@Override
 	public void removeCandidate(String contest, String category, String candidate) throws NotFoundException {
-		categoryService.getCategoryByContestAndId(contest, category).getCandidates().removeIf(c -> c.equals(candidate));
+		Contest cont = contestService.findOne(contest);
+		cont.getCategories().stream().filter(c -> c.getId().equals(category)).findFirst().get().getCandidates()
+				.removeIf(cand -> cand.equals(candidate));
+		contestService.save(cont);
 	}
-
 }

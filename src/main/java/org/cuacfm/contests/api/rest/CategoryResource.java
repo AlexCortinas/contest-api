@@ -9,7 +9,7 @@ import javax.inject.Inject;
 
 import org.cuacfm.contests.api.model.Category;
 import org.cuacfm.contests.api.model.ValueJSON;
-import org.cuacfm.contests.api.service.ICategoryService;
+import org.cuacfm.contests.api.service.CategoryService;
 import org.cuacfm.contests.api.service.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +26,7 @@ import io.swagger.annotations.ApiOperation;
 public class CategoryResource {
 
 	@Inject
-	private ICategoryService categoryService;
+	private CategoryService categoryService;
 
 	@ApiOperation(nickname = "List categories", value = "List all categories of the contest")
 	@RequestMapping(method = RequestMethod.GET)
