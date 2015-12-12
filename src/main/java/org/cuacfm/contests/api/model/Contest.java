@@ -27,11 +27,13 @@ public class Contest {
 	}
 
 	public Contest(String name) {
+		this();
 		this.id = StringUtils.normalizeString(name);
 		this.name = name;
 	}
 
 	public Contest(String id, String name, String desc) {
+		this();
 		this.id = id;
 		this.name = name;
 		this.desc = desc;
