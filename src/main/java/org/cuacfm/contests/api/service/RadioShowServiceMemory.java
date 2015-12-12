@@ -10,7 +10,6 @@ import java.util.Set;
 import javax.inject.Inject;
 
 import org.cuacfm.contests.api.model.Contest;
-import org.cuacfm.contests.api.model.Person;
 import org.cuacfm.contests.api.model.RadioShow;
 import org.cuacfm.contests.api.model.Vote;
 import org.cuacfm.contests.api.service.exception.NotFoundException;
@@ -27,13 +26,13 @@ public class RadioShowServiceMemory implements IRadioShowService {
 
 	private static Map<String, Set<RadioShow>> shows = new HashMap<String, Set<RadioShow>>();
 
-	static {
-		Set<RadioShow> showsOscuacs = new HashSet<RadioShow>();
-		shows.put("OSCUACS15", showsOscuacs);
-		showsOscuacs.add(new RadioShow("Spoiler"));
-		showsOscuacs.add(new RadioShow("Alegría"));
-		showsOscuacs.add(new RadioShow("Falso 9"));
-	}
+	// static {
+	// Set<RadioShow> showsOscuacs = new HashSet<RadioShow>();
+	// shows.put("OSCUACS15", showsOscuacs);
+	// showsOscuacs.add(new RadioShow("Spoiler"));
+	// showsOscuacs.add(new RadioShow("Alegría"));
+	// showsOscuacs.add(new RadioShow("Falso 9"));
+	// }
 
 	@Override
 	public Set<RadioShow> getAllShowsByContest(String contest) {
@@ -82,7 +81,7 @@ public class RadioShowServiceMemory implements IRadioShowService {
 	}
 
 	@Override
-	public void addMember(String contest, String show, Person person) {
+	public void addMember(String contest, String show, String person) {
 		Optional.ofNullable(getShowByContestAndName(contest, show)).ifPresent(s -> s.getMembers().add(person));
 	}
 
@@ -104,7 +103,7 @@ public class RadioShowServiceMemory implements IRadioShowService {
 		c = c.clone();
 
 		c.getCategories().forEach(cat -> cat.getCandidates().removeIf(s -> {
-			return rs.getName().equals(s) || rs.getMembers().stream().anyMatch(p -> p.getName().equals(s));
+			return rs.getName().equals(s) || rs.getMembers().stream().anyMatch(p -> p.equals(s));
 		}));
 
 		return c;

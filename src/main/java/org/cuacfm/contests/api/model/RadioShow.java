@@ -17,7 +17,7 @@ public class RadioShow {
 	private String code;
 	private boolean hasVoted = false;
 	private Map<String, Vote> votes = new HashMap<String, Vote>();
-	private Set<Person> members = new HashSet<Person>();
+	private Set<String> members = new HashSet<String>();
 
 	public RadioShow() {
 		this.code = UUID.randomUUID().toString().substring(0, 8);
@@ -63,11 +63,11 @@ public class RadioShow {
 		return votes;
 	}
 
-	public Set<Person> getMembers() {
+	public Set<String> getMembers() {
 		return members;
 	}
 
-	public void setMembers(Set<Person> members) {
+	public void setMembers(Set<String> members) {
 		this.members = members;
 	}
 

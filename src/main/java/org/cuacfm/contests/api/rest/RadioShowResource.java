@@ -2,16 +2,13 @@ package org.cuacfm.contests.api.rest;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
 import javax.inject.Inject;
 
-import org.cuacfm.contests.api.model.Person;
 import org.cuacfm.contests.api.model.RadioShow;
 import org.cuacfm.contests.api.model.ValueJSON;
-import org.cuacfm.contests.api.model.Vote;
 import org.cuacfm.contests.api.service.IRadioShowService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,7 +41,7 @@ public class RadioShowResource {
 	}
 
 	@RequestMapping(value = "/{show}/members", method = RequestMethod.GET)
-	public ResponseEntity<Set<Person>> getMembers(@PathVariable String contest, @PathVariable String show) {
+	public ResponseEntity<Set<String>> getMembers(@PathVariable String contest, @PathVariable String show) {
 		return Optional.ofNullable(radioShowService.getShowByContestAndCode(contest, show))
 				.map(c -> new ResponseEntity<>(c.getMembers(), HttpStatus.OK))
 				.orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
@@ -53,8 +50,8 @@ public class RadioShowResource {
 	@ApiOperation(nickname = "Add member", value = "Add member to show - the show is selected by id, not code")
 	@RequestMapping(value = "/{show}/members", method = RequestMethod.POST)
 	public ResponseEntity<?> addMember(@PathVariable String contest, @PathVariable String show,
-			@RequestBody Person person) {
-		radioShowService.addMember(contest, show, person);
+			@RequestBody ValueJSON person) {
+		radioShowService.addMember(contest, show, person.getValue());
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 

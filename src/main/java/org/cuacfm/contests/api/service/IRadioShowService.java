@@ -4,7 +4,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.cuacfm.contests.api.model.Contest;
-import org.cuacfm.contests.api.model.Person;
 import org.cuacfm.contests.api.model.RadioShow;
 import org.cuacfm.contests.api.model.Vote;
 import org.cuacfm.contests.api.service.exception.NotFoundException;
@@ -19,7 +18,7 @@ public interface IRadioShowService {
 
 	void deleteShowByContestAndId(String contest, String show);
 
-	void addMember(String contest, String show, Person person);
+	void addMember(String contest, String show, String person);
 
 	Contest getContestByShowCode(String code);
 

@@ -3,6 +3,8 @@ package org.cuacfm.contests.api.service;
 import java.util.List;
 
 import org.cuacfm.contests.api.model.Contest;
+import org.cuacfm.contests.api.service.custom.BulkDataJSON;
+import org.cuacfm.contests.api.service.exception.NotFoundException;
 
 public interface IContestService {
 
@@ -21,5 +23,7 @@ public interface IContestService {
 	void startVotingContestById(String contest);
 
 	void stopVotingContestById(String contest);
+
+	void bulkLoad(BulkDataJSON data) throws NotFoundException;
 
 }
