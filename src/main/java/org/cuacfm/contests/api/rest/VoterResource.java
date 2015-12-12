@@ -37,7 +37,7 @@ public class VoterResource {
 	public ResponseEntity<?> vote(@PathVariable String code, @RequestBody Map<String, Vote> votes)
 			throws NotFoundException {
 		if (code.equals("admin"))
-			return null;
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		radioShowService.vote(code, votes);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
