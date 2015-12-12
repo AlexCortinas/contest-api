@@ -6,6 +6,7 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
+import org.cuacfm.contests.api.model.Category;
 import org.cuacfm.contests.api.model.Contest;
 import org.cuacfm.contests.api.model.RadioShow;
 import org.cuacfm.contests.api.model.Vote;
@@ -99,14 +100,31 @@ public class RadioShowServiceMongo implements RadioShowService {
 	@Override
 	public void vote(String code, Map<String, Vote> votes) throws NotFoundException {
 		Contest c = getContestByShowCodeWithoutModification(code);
+
 		RadioShow show = c.getShows().stream().filter(s -> s.getCode().equals(code)).findFirst()
 				.orElseThrow(() -> new NotFoundException(String.format("Code %s for show not found", code)));
+
 		for (Entry<String, Vote> ent : votes.entrySet()) {
-			if (!c.getCategories().stream().anyMatch(categ -> categ.getId().equals(ent.getKey()))) {
-				new NotFoundException(String.format("Code %s for category not found", ent.getKey()));
+			Category categoryVoting = c.getCategories().stream().filter(categ -> categ.getId().equals(ent.getKey()))
+					.findFirst()
+					.orElseThrow(() -> new NotFoundException(String.format("Category %s not found", ent.getKey())));
+
+			if (!categoryVoting.getCandidates().contains(ent.getValue().getOne())) {
+				throw new NotFoundException(String.format("Candidate %s for category %s not found",
+						ent.getValue().getOne(), categoryVoting.getId()));
 			}
+			if (!categoryVoting.getCandidates().contains(ent.getValue().getTwo())) {
+				throw new NotFoundException(String.format("Candidate %s for category %s not found",
+						ent.getValue().getTwo(), categoryVoting.getId()));
+			}
+			if (!categoryVoting.getCandidates().contains(ent.getValue().getThree())) {
+				throw new NotFoundException(String.format("Candidate %s for category %s not found",
+						ent.getValue().getThree(), categoryVoting.getId()));
+			}
+
 			show.getVotes().put(ent.getKey(), ent.getValue());
 		}
+
 		show.setHasVoted(true);
 		contestService.save(c);
 	}
