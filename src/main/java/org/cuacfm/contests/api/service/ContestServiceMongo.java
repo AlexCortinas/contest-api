@@ -166,5 +166,6 @@ public class ContestServiceMongo implements ContestService {
 				e1.printStackTrace();
 			}
 		});
+		startVotingContestById(contest);
 	}
 }
