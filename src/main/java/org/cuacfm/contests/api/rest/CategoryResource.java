@@ -30,7 +30,7 @@ public class CategoryResource {
 
 	@ApiOperation(nickname = "List categories", value = "List all categories of the contest")
 	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<List<Category>> getAll(@PathVariable String contest) {
+	public ResponseEntity<List<Category>> getAll(@PathVariable String contest) throws NotFoundException {
 		return new ResponseEntity<>(categoryService.getAllCategoriesByContest(contest), HttpStatus.OK);
 	}
 
@@ -45,7 +45,7 @@ public class CategoryResource {
 	@ApiOperation(nickname = "Create category", value = "Create a category")
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<?> create(@PathVariable String contest, @RequestBody Category item)
-			throws URISyntaxException {
+			throws URISyntaxException, NotFoundException {
 		categoryService.createCategory(contest, item);
 		return ResponseEntity.created(new URI(String.format("/api/contest/%s/category/%s", contest, item.getId())))
 				.build();
@@ -54,7 +54,7 @@ public class CategoryResource {
 	@ApiOperation(nickname = "Create category by name", value = "Create a category just by name")
 	@RequestMapping(value = "/quick", method = RequestMethod.POST)
 	public ResponseEntity<?> create(@PathVariable String contest, @RequestBody ValueJSON name)
-			throws URISyntaxException {
+			throws URISyntaxException, NotFoundException {
 		Category c = categoryService.createCategory(contest, name.getValue());
 		return ResponseEntity.created(new URI(String.format("/api/contest/%s/category/%s", contest, c.getId())))
 				.build();
@@ -63,14 +63,14 @@ public class CategoryResource {
 	@ApiOperation(nickname = "Update category", value = "Update a category")
 	@RequestMapping(value = "/{category}", method = RequestMethod.PUT)
 	public ResponseEntity<?> update(@PathVariable String contest, @PathVariable String category,
-			@RequestBody Category item) {
+			@RequestBody Category item) throws NotFoundException {
 		categoryService.updateCategoryByContestAndId(contest, category, item);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	@ApiOperation(nickname = "Delete category", value = "Delete a category")
 	@RequestMapping(value = "/{category}", method = RequestMethod.DELETE)
-	public void delete(@PathVariable String contest, @PathVariable String category) {
+	public void delete(@PathVariable String contest, @PathVariable String category) throws NotFoundException {
 		categoryService.deleteCategoryByContestAndId(contest, category);
 	}
 

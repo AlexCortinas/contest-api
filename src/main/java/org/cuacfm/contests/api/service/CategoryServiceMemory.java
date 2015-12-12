@@ -15,7 +15,7 @@ public class CategoryServiceMemory implements ICategoryService {
 	private IContestService contestService;
 
 	@Override
-	public List<Category> getAllCategoriesByContest(String contest) {
+	public List<Category> getAllCategoriesByContest(String contest) throws NotFoundException {
 		return contestService.getContestById(contest).getCategories();
 	}
 
@@ -26,24 +26,24 @@ public class CategoryServiceMemory implements ICategoryService {
 	}
 
 	@Override
-	public Category createCategory(String contest, Category item) {
+	public Category createCategory(String contest, Category item) throws NotFoundException {
 		contestService.getContestById(contest).addCategory(item);
 		return item;
 	}
 
 	@Override
-	public Category createCategory(String contest, String name) {
+	public Category createCategory(String contest, String name) throws NotFoundException {
 		Category c = new Category(name);
 		return createCategory(contest, c);
 	}
 
 	@Override
-	public void deleteCategoryByContestAndId(String contest, String category) {
+	public void deleteCategoryByContestAndId(String contest, String category) throws NotFoundException {
 		contestService.getContestById(contest).getCategories().removeIf(c -> c.getId().equals(category));
 	}
 
 	@Override
-	public void updateCategoryByContestAndId(String contest, String category, Category item) {
+	public void updateCategoryByContestAndId(String contest, String category, Category item) throws NotFoundException {
 		deleteCategoryByContestAndId(contest, category);
 		createCategory(contest, item);
 	}

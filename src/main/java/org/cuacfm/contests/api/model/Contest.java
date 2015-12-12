@@ -1,9 +1,13 @@
 package org.cuacfm.contests.api.model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.cuacfm.contests.api.StringUtils;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class Contest {
 	private String id;
@@ -12,6 +16,9 @@ public class Contest {
 	private boolean voting = false;
 
 	private List<Category> categories = new ArrayList<Category>();
+
+	@JsonIgnore
+	private Set<RadioShow> shows = new HashSet<RadioShow>();
 
 	public Contest() {
 	}
@@ -81,5 +88,13 @@ public class Contest {
 		Contest r = new Contest(id, name, desc, voting);
 		getCategories().forEach(c -> r.addCategory(c.clone()));
 		return r;
+	}
+
+	public Set<RadioShow> getShows() {
+		return shows;
+	}
+
+	public void setShows(Set<RadioShow> shows) {
+		this.shows = shows;
 	}
 }

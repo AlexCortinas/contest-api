@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import org.cuacfm.contests.api.model.RadioShow;
 import org.cuacfm.contests.api.model.ValueJSON;
 import org.cuacfm.contests.api.service.IRadioShowService;
+import org.cuacfm.contests.api.service.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,19 +30,21 @@ public class RadioShowResource {
 
 	@ApiOperation(nickname = "List shows", value = "List all shows of the contest")
 	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<Set<RadioShow>> getAll(@PathVariable String contest) {
+	public ResponseEntity<Set<RadioShow>> getAll(@PathVariable String contest) throws NotFoundException {
 		return new ResponseEntity<>(radioShowService.getAllShowsByContest(contest), HttpStatus.OK);
 	}
 
 	@ApiOperation(nickname = "Get show", value = "Get a show by the code")
 	@RequestMapping(value = "/{show}", method = RequestMethod.GET)
-	public ResponseEntity<RadioShow> get(@PathVariable String contest, @PathVariable String show) {
+	public ResponseEntity<RadioShow> get(@PathVariable String contest, @PathVariable String show)
+			throws NotFoundException {
 		return Optional.ofNullable(radioShowService.getShowByContestAndCode(contest, show))
 				.map(c -> new ResponseEntity<>(c, HttpStatus.OK)).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
 
 	@RequestMapping(value = "/{show}/members", method = RequestMethod.GET)
-	public ResponseEntity<Set<String>> getMembers(@PathVariable String contest, @PathVariable String show) {
+	public ResponseEntity<Set<String>> getMembers(@PathVariable String contest, @PathVariable String show)
+			throws NotFoundException {
 		return Optional.ofNullable(radioShowService.getShowByContestAndCode(contest, show))
 				.map(c -> new ResponseEntity<>(c.getMembers(), HttpStatus.OK))
 				.orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
@@ -50,7 +53,7 @@ public class RadioShowResource {
 	@ApiOperation(nickname = "Add member", value = "Add member to show - the show is selected by id, not code")
 	@RequestMapping(value = "/{show}/members", method = RequestMethod.POST)
 	public ResponseEntity<?> addMember(@PathVariable String contest, @PathVariable String show,
-			@RequestBody ValueJSON person) {
+			@RequestBody ValueJSON person) throws NotFoundException {
 		radioShowService.addMember(contest, show, person.getValue());
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
@@ -58,14 +61,14 @@ public class RadioShowResource {
 	@ApiOperation(nickname = "Create show", value = "Create a show. The only needed parameter is the name.")
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<?> create(@PathVariable String contest, @RequestBody ValueJSON name)
-			throws URISyntaxException {
+			throws URISyntaxException, NotFoundException {
 		RadioShow r = radioShowService.createShow(contest, name.getValue());
 		return ResponseEntity.created(new URI(String.format("/api/contest/%s/shows/%s", contest, r.getCode()))).build();
 	}
 
 	@ApiOperation(nickname = "Delete show", value = "Delete a show by the code")
 	@RequestMapping(value = "/{show}", method = RequestMethod.DELETE)
-	public void delete(@PathVariable String contest, @PathVariable String show) {
+	public void delete(@PathVariable String contest, @PathVariable String show) throws NotFoundException {
 		radioShowService.deleteShowByContestAndId(contest, show);
 	}
 }

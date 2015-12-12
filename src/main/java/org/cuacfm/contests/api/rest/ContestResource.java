@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import org.cuacfm.contests.api.model.Contest;
 import org.cuacfm.contests.api.model.ValueJSON;
 import org.cuacfm.contests.api.service.IContestService;
+import org.cuacfm.contests.api.service.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,7 +36,7 @@ public class ContestResource {
 
 	@ApiOperation(nickname = "Get contest", value = "Get a contest")
 	@RequestMapping(value = "/{contest}", method = RequestMethod.GET)
-	public ResponseEntity<Contest> get(@PathVariable String contest) {
+	public ResponseEntity<Contest> get(@PathVariable String contest) throws NotFoundException {
 		return Optional.ofNullable(contestService.getContestById(contest))
 				.map(c -> new ResponseEntity<>(c, HttpStatus.OK)).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
@@ -69,14 +70,14 @@ public class ContestResource {
 
 	@ApiOperation(nickname = "Start votations", value = "Start votation period")
 	@RequestMapping(value = "/{contest}/voting", method = RequestMethod.PUT)
-	public ResponseEntity<?> startVoting(@PathVariable String contest) {
+	public ResponseEntity<?> startVoting(@PathVariable String contest) throws NotFoundException {
 		contestService.startVotingContestById(contest);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	@ApiOperation(nickname = "Stop votations", value = "Stop votation period")
 	@RequestMapping(value = "/{contest}/voting", method = RequestMethod.DELETE)
-	public ResponseEntity<?> stopVoting(@PathVariable String contest) {
+	public ResponseEntity<?> stopVoting(@PathVariable String contest) throws NotFoundException {
 		contestService.stopVotingContestById(contest);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}

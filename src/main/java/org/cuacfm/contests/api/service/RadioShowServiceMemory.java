@@ -24,7 +24,8 @@ public class RadioShowServiceMemory implements IRadioShowService {
 	@Inject
 	private ICategoryService categoryService;
 
-	private static Map<String, Set<RadioShow>> shows = new HashMap<String, Set<RadioShow>>();
+	// private static Map<String, Set<RadioShow>> shows = new HashMap<String,
+	// Set<RadioShow>>();
 
 	// static {
 	// Set<RadioShow> showsOscuacs = new HashSet<RadioShow>();
@@ -35,38 +36,31 @@ public class RadioShowServiceMemory implements IRadioShowService {
 	// }
 
 	@Override
-	public Set<RadioShow> getAllShowsByContest(String contest) {
-		return shows.get(contest);
+	public Set<RadioShow> getAllShowsByContest(String contest) throws NotFoundException {
+		return contestService.getContestById(contest).getShows();
 	}
 
 	@Override
-	public RadioShow getShowByContestAndCode(String contest, String code) {
-		if (!shows.containsKey(contest) && contestService.getContestById(contest) != null) {
-			shows.put(contest, new HashSet<RadioShow>());
-		}
-		return shows.get(contest).stream().filter(s -> s.getCode().equals(code)).findFirst().orElse(null);
+	public RadioShow getShowByContestAndCode(String contest, String code) throws NotFoundException {
+		return contestService.getContestById(contest).getShows().stream().filter(s -> s.getCode().equals(code))
+				.findFirst().orElse(null);
 	}
 
 	@Override
-	public RadioShow createShow(String contest, String name) {
-		// TODO excepción si el contest no existe
+	public RadioShow createShow(String contest, String name) throws NotFoundException {
 		RadioShow r = new RadioShow(name);
 		while (codeBusy(r.getCode())) {
 			r = new RadioShow(name);
 		}
 
-		if (!shows.containsKey(contest)) {
-			shows.put(contest, new HashSet<RadioShow>());
-		}
-
-		shows.get(contest).add(r);
+		contestService.getContestById(contest).getShows().add(r);
 
 		return r;
 	}
 
 	private RadioShow getShowByCode(String code) {
-		return shows.values().stream().flatMap(l -> l.stream()).filter(r -> r.getCode().equals(code)).findFirst()
-				.orElse(null);
+		return contestService.getAllContests().stream().map(Contest::getShows).flatMap(l -> l.stream())
+				.filter(r -> r.getCode().equals(code)).findFirst().orElse(null);
 	}
 
 	private boolean codeBusy(String code) {
@@ -74,26 +68,22 @@ public class RadioShowServiceMemory implements IRadioShowService {
 	}
 
 	@Override
-	public void deleteShowByContestAndId(String contest, String code) {
-		if (shows.containsKey(contest)) {
-			shows.get(contest).removeIf(s -> s.getCode().equals(code));
-		}
+	public void deleteShowByContestAndId(String contest, String code) throws NotFoundException {
+		contestService.getContestById(contest).getShows().removeIf(s -> s.getCode().equals(code));
 	}
 
 	@Override
-	public void addMember(String contest, String show, String person) {
+	public void addMember(String contest, String show, String person) throws NotFoundException {
 		Optional.ofNullable(getShowByContestAndName(contest, show)).ifPresent(s -> s.getMembers().add(person));
 	}
 
-	private RadioShow getShowByContestAndName(String contest, String id) {
-		if (!shows.containsKey(contest) && contestService.getContestById(contest) != null) {
-			shows.put(contest, new HashSet<RadioShow>());
-		}
-		return shows.get(contest).stream().filter(s -> s.getId().equals(id)).findFirst().orElse(null);
+	private RadioShow getShowByContestAndName(String contest, String id) throws NotFoundException {
+		return contestService.getContestById(contest).getShows().stream().filter(s -> s.getId().equals(id)).findFirst()
+				.orElse(null);
 	}
 
 	@Override
-	public Contest getContestByShowCode(String code) {
+	public Contest getContestByShowCode(String code) throws NotFoundException {
 		Contest c = getContestByShowCodeWithoutModification(code);
 
 		if (c == null)
@@ -110,10 +100,12 @@ public class RadioShowServiceMemory implements IRadioShowService {
 	}
 
 	private Contest getContestByShowCodeWithoutModification(String code) {
-		for (Entry<String, Set<RadioShow>> entry : shows.entrySet()) {
-			if (entry.getValue().stream().map(RadioShow::getCode).anyMatch(code::equals))
-				return contestService.getContestById(entry.getKey());
+		for (Contest c : contestService.getAllContests()) {
+			if (c.getShows().stream().map(RadioShow::getCode).anyMatch(code::equals)) {
+				return c;
+			}
 		}
+
 		return null;
 	}
 

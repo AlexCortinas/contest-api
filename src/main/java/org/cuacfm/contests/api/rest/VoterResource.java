@@ -27,7 +27,7 @@ public class VoterResource {
 
 	@ApiOperation(nickname = "Get the contest info", value = "Get the contest info")
 	@RequestMapping(value = "/{code}/contest", method = RequestMethod.POST)
-	public ResponseEntity<?> vote(@PathVariable String code) {
+	public ResponseEntity<?> vote(@PathVariable String code) throws NotFoundException {
 		return Optional.ofNullable(radioShowService.getContestByShowCode(code))
 				.map(c -> new ResponseEntity<>(c, HttpStatus.OK)).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}

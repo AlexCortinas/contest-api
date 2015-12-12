@@ -62,7 +62,10 @@ public class ContestServiceMemory implements IContestService {
 	}
 
 	@Override
-	public Contest getContestById(String contest) {
+	public Contest getContestById(String contest) throws NotFoundException {
+		if (!contests.containsKey(contest)) {
+			throw new NotFoundException("Contest id not found");
+		}
 		return contests.get(contest);
 	}
 
@@ -91,13 +94,13 @@ public class ContestServiceMemory implements IContestService {
 	}
 
 	@Override
-	public void startVotingContestById(String contest) {
+	public void startVotingContestById(String contest) throws NotFoundException {
 		Contest c = getContestById(contest);
 		c.setVoting(true);
 	}
 
 	@Override
-	public void stopVotingContestById(String contest) {
+	public void stopVotingContestById(String contest) throws NotFoundException {
 
 		Contest c = getContestById(contest);
 		c.setVoting(false);
@@ -136,22 +139,38 @@ public class ContestServiceMemory implements IContestService {
 
 		String contest = createContest(data.getName()).getId();
 		data.getShows().entrySet().forEach(ent -> {
-			String showId = radioShowService.createShow(contest, ent.getKey()).getId();
-			ent.getValue().forEach(p -> {
-				radioShowService.addMember(contest, showId, p);
-			});
+			try {
+				String showId = radioShowService.createShow(contest, ent.getKey()).getId();
+
+				ent.getValue().forEach(p -> {
+					try {
+						radioShowService.addMember(contest, showId, p);
+					} catch (Exception e) {
+						// should not happen
+						e.printStackTrace();
+					}
+				});
+			} catch (Exception e) {
+				// should not happen
+				e.printStackTrace();
+			}
 		});
 
 		data.getCategories().entrySet().forEach(ent -> {
-			String categoryId = categoryService.createCategory(contest, ent.getKey()).getId();
-			ent.getValue().forEach(c -> {
-				try {
-					candidateService.createNewCandidate(contest, categoryId, c);
-				} catch (Exception e) {
-					// should not happen
-					e.printStackTrace();
-				}
-			});
+			try {
+				String categoryId = categoryService.createCategory(contest, ent.getKey()).getId();
+				ent.getValue().forEach(c -> {
+					try {
+						candidateService.createNewCandidate(contest, categoryId, c);
+					} catch (Exception e) {
+						// should not happen
+						e.printStackTrace();
+					}
+				});
+			} catch (Exception e1) {
+				// should not happen
+				e1.printStackTrace();
+			}
 		});
 	}
 

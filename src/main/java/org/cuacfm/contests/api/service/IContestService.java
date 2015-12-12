@@ -10,7 +10,7 @@ public interface IContestService {
 
 	List<Contest> getAllContests();
 
-	Contest getContestById(String contest);
+	Contest getContestById(String contest) throws NotFoundException;
 
 	Contest createContest(Contest item);
 
@@ -20,9 +20,9 @@ public interface IContestService {
 
 	void deleteContestById(String contest);
 
-	void startVotingContestById(String contest);
+	void startVotingContestById(String contest) throws NotFoundException;
 
-	void stopVotingContestById(String contest);
+	void stopVotingContestById(String contest) throws NotFoundException;
 
 	void bulkLoad(BulkDataJSON data) throws NotFoundException;
 
