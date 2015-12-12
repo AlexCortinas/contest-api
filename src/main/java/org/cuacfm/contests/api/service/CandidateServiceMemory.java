@@ -13,17 +13,17 @@ public class CandidateServiceMemory implements CandidateService {
 
 	@Override
 	public Set<String> getByContestAndCategory(String contest, String category) throws NotFoundException {
-		return categoryService.getCategoryByContestAndId(contest, category).getCandidates();
+		return categoryService.getCategoryByContestAndId(contest, category).getCandidatesBrute();
 	}
 
 	@Override
 	public void createNewCandidate(String contest, String category, String item) throws NotFoundException {
-		categoryService.getCategoryByContestAndId(contest, category).getCandidates().add(item);
+		categoryService.getCategoryByContestAndId(contest, category).getCandidatesBrute().add(item);
 	}
 
 	@Override
 	public void removeCandidate(String contest, String category, String candidate) throws NotFoundException {
-		categoryService.getCategoryByContestAndId(contest, category).getCandidates().removeIf(c -> c.equals(candidate));
+		categoryService.getCategoryByContestAndId(contest, category).getCandidatesBrute().removeIf(c -> c.equals(candidate));
 	}
 
 }

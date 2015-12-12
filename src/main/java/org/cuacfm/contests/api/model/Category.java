@@ -1,7 +1,9 @@
 package org.cuacfm.contests.api.model;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.cuacfm.contests.api.StringUtils;
 
@@ -33,7 +35,7 @@ public class Category {
 		this.id = cat.getId();
 		this.name = cat.getName();
 		this.desc = cat.getDesc();
-		cat.getCandidates().forEach(s -> this.candidates.add(s));
+		cat.getCandidatesBrute().forEach(s -> this.candidates.add(s));
 	}
 
 	public String getId() {
@@ -61,7 +63,12 @@ public class Category {
 	}
 
 	@JsonProperty
-	public Set<String> getCandidates() {
+	public List<String> getCandidates() {
+		return candidates.stream().sorted().collect(Collectors.toList());
+	}
+
+	@JsonIgnore
+	public Set<String> getCandidatesBrute() {
 		return candidates;
 	}
 
@@ -72,7 +79,7 @@ public class Category {
 
 	public Category clone() {
 		Category r = new Category(id, name, desc);
-		getCandidates().forEach(s -> r.getCandidates().add(s));
+		getCandidatesBrute().forEach(s -> r.getCandidatesBrute().add(s));
 		return r;
 	}
 

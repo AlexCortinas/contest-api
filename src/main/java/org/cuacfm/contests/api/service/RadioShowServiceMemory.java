@@ -88,7 +88,7 @@ public class RadioShowServiceMemory implements RadioShowService {
 		final RadioShow rs = getShowByContestAndCode(c.getId(), code);
 		c = c.clone();
 
-		c.getCategories().forEach(cat -> cat.getCandidates().removeIf(s -> {
+		c.getCategories().forEach(cat -> cat.getCandidatesBrute().removeIf(s -> {
 			return rs.getName().equals(s) || rs.getMembers().stream().anyMatch(p -> p.equals(s));
 		}));
 

@@ -19,13 +19,13 @@ public class CandidateServiceMongo implements CandidateService {
 
 	@Override
 	public Set<String> getByContestAndCategory(String contest, String category) throws NotFoundException {
-		return categoryService.getCategoryByContestAndId(contest, category).getCandidates();
+		return categoryService.getCategoryByContestAndId(contest, category).getCandidatesBrute();
 	}
 
 	@Override
 	public void createNewCandidate(String contest, String category, String item) throws NotFoundException {
 		Contest cont = contestService.findOne(contest);
-		cont.getCategories().stream().filter(c -> c.getId().equals(category)).findFirst().get().getCandidates()
+		cont.getCategories().stream().filter(c -> c.getId().equals(category)).findFirst().get().getCandidatesBrute()
 				.add(item);
 		contestService.save(cont);
 	}
@@ -33,7 +33,7 @@ public class CandidateServiceMongo implements CandidateService {
 	@Override
 	public void removeCandidate(String contest, String category, String candidate) throws NotFoundException {
 		Contest cont = contestService.findOne(contest);
-		cont.getCategories().stream().filter(c -> c.getId().equals(category)).findFirst().get().getCandidates()
+		cont.getCategories().stream().filter(c -> c.getId().equals(category)).findFirst().get().getCandidatesBrute()
 				.removeIf(cand -> cand.equals(candidate));
 		contestService.save(cont);
 	}

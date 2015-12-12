@@ -19,7 +19,7 @@ public class CategoryPostVoting extends Category {
 
 	public CategoryPostVoting(Category cat) {
 		super(cat);
-		this.getCandidates().forEach(s -> results.put(s, new AtomicInteger(0)));
+		this.getCandidatesBrute().forEach(s -> results.put(s, new AtomicInteger(0)));
 	}
 
 	@JsonIgnore

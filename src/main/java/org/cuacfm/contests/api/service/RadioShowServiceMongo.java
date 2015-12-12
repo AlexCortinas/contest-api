@@ -80,7 +80,7 @@ public class RadioShowServiceMongo implements RadioShowService {
 		final RadioShow rs = getShowByContestAndCode(c.getId(), code);
 		c = c.clone();
 
-		c.getCategories().forEach(cat -> cat.getCandidates().removeIf(s -> {
+		c.getCategories().forEach(cat -> cat.getCandidatesBrute().removeIf(s -> {
 			return rs.getName().equals(s) || rs.getMembers().stream().anyMatch(p -> p.equals(s));
 		}));
 
@@ -109,15 +109,15 @@ public class RadioShowServiceMongo implements RadioShowService {
 					.findFirst()
 					.orElseThrow(() -> new NotFoundException(String.format("Category %s not found", ent.getKey())));
 
-			if (!categoryVoting.getCandidates().contains(ent.getValue().getOne())) {
+			if (!categoryVoting.getCandidatesBrute().contains(ent.getValue().getOne())) {
 				throw new NotFoundException(String.format("Candidate %s for category %s not found",
 						ent.getValue().getOne(), categoryVoting.getId()));
 			}
-			if (!categoryVoting.getCandidates().contains(ent.getValue().getTwo())) {
+			if (!categoryVoting.getCandidatesBrute().contains(ent.getValue().getTwo())) {
 				throw new NotFoundException(String.format("Candidate %s for category %s not found",
 						ent.getValue().getTwo(), categoryVoting.getId()));
 			}
-			if (!categoryVoting.getCandidates().contains(ent.getValue().getThree())) {
+			if (!categoryVoting.getCandidatesBrute().contains(ent.getValue().getThree())) {
 				throw new NotFoundException(String.format("Candidate %s for category %s not found",
 						ent.getValue().getThree(), categoryVoting.getId()));
 			}
