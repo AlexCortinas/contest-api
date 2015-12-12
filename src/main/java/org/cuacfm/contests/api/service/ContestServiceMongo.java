@@ -99,9 +99,24 @@ public class ContestServiceMongo implements ContestService {
 
 		for (Entry<String, List<Vote>> ent : allVotesByCategory.entrySet()) {
 			CategoryPostVoting cpv = categories.get(ent.getKey());
+			if (cpv == null) {
+				throw new NotFoundException(String.format("Category %s not found", ent.getKey()));
+			}
 			for (Vote v : ent.getValue()) {
+				if (!cpv.getResultsBrute().containsKey(v.getOne())) {
+					throw new NotFoundException(
+							String.format("Candidate %s for category %s not found", v.getOne(), cpv.getId()));
+				}
 				addPoints(cpv.getResultsBrute().get(v.getOne()), 1);
+				if (!cpv.getResultsBrute().containsKey(v.getTwo())) {
+					throw new NotFoundException(
+							String.format("Candidate %s for category %s not found", v.getTwo(), cpv.getId()));
+				}
 				addPoints(cpv.getResultsBrute().get(v.getTwo()), 2);
+				if (!cpv.getResultsBrute().containsKey(v.getThree())) {
+					throw new NotFoundException(
+							String.format("Candidate %s for category %s not found", v.getThree(), cpv.getId()));
+				}
 				addPoints(cpv.getResultsBrute().get(v.getThree()), 3);
 			}
 		}
