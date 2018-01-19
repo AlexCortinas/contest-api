@@ -1,7 +1,10 @@
 package org.cuacfm.contests.api.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 import java.util.Optional;
 import java.util.Set;
 
@@ -10,6 +13,9 @@ import javax.inject.Inject;
 import org.cuacfm.contests.api.model.Contest;
 import org.cuacfm.contests.api.model.RadioShow;
 import org.cuacfm.contests.api.model.Vote;
+import org.cuacfm.contests.api.service.custom.CandidateJSON;
+import org.cuacfm.contests.api.service.custom.CategoryJSON;
+import org.cuacfm.contests.api.service.custom.ContestJSON;
 import org.cuacfm.contests.api.service.exception.NotFoundException;
 
 public class RadioShowServiceMemory implements RadioShowService {
@@ -79,8 +85,9 @@ public class RadioShowServiceMemory implements RadioShowService {
 	}
 
 	@Override
-	public Contest getContestByShowCode(String code) throws NotFoundException {
+	public ContestJSON getContestByShowCode(String code) throws NotFoundException {
 		Contest c = getContestByShowCodeWithoutModification(code);
+        final String contestCode = c.getId();
 
 		if (c == null)
 			return null;
@@ -91,9 +98,36 @@ public class RadioShowServiceMemory implements RadioShowService {
 		c.getCategories().forEach(cat -> cat.getCandidatesBrute().removeIf(s -> {
 			return rs.getName().equals(s) || rs.getMembers().stream().anyMatch(p -> p.equals(s));
 		}));
+		
+        List<CategoryJSON> categories = c.getCategories().stream().map(cat -> {
+            Set<CandidateJSON> candidates = cat.getCandidatesBrute().stream().map(cand -> {
+                return new CandidateJSON(cand, getCandidateLabel(contestCode, cand));
+            }).collect(Collectors.toSet());
 
-		return c;
+            return new CategoryJSON(cat.getId(), cat.getName(), cat.getDesc(), candidates);
+        }).collect(Collectors.toList());
+
+        return new ContestJSON(c.getId(), c.getName(), c.getDesc(), c.isVoting(), categories);
 	}
+	
+    private String getCandidateLabel(String contest, String candidate) {
+        final List<String> shows = new ArrayList<>();
+        
+        try {
+            contestService.findOne(contest).getShows().forEach(show -> {
+                show.getMembers().forEach(member -> {
+                    if (member.equals(candidate)) {
+                        shows.add(show.getName());
+                    }
+                });
+            });
+        } catch (NotFoundException e) {
+            return candidate;
+        }
+        
+        if (shows.isEmpty()) return candidate;
+        else return candidate + " (" + shows.stream().collect(Collectors.joining(", "))+ ")";
+    }
 
 	private Contest getContestByShowCodeWithoutModification(String code) {
 		for (Contest c : contestService.getAllContests()) {
