@@ -26,7 +26,7 @@ public class Category {
 	}
 
 	public Category(String id, String name, String desc) {
-		this.id = id;
+        this.id = StringUtils.normalizeString(id);
 		this.name = name;
 		this.desc = desc;
 	}
