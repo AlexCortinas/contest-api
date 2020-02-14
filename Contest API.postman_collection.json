@@ -1,0 +1,714 @@
+{
+	"info": {
+		"_postman_id": "93e126ad-1505-70ca-b894-e69fc519c630",
+		"name": "Contest API",
+		"description": "DEFAULT",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Web",
+			"item": [
+				{
+					"name": "listContestsusingget",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{contests-api-host}}/api/contests",
+							"host": [
+								"{{contests-api-host}}"
+							],
+							"path": [
+								"api",
+								"contests"
+							]
+						},
+						"description": "List all contests"
+					},
+					"response": []
+				},
+				{
+					"name": "getContestusingget",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{contests-api-host}}/api/contests/{{contest}}",
+							"host": [
+								"{{contests-api-host}}"
+							],
+							"path": [
+								"api",
+								"contests",
+								"{{contest}}"
+							]
+						},
+						"description": "Get a contest"
+					},
+					"response": []
+				},
+				{
+					"name": "createContestusingpost",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{contests-api-host}}/api/contests",
+							"host": [
+								"{{contests-api-host}}"
+							],
+							"path": [
+								"api",
+								"contests"
+							]
+						},
+						"description": "Create a contest"
+					},
+					"response": []
+				},
+				{
+					"name": "updateContestusingput",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{contests-api-host}}/api/contests/{{contest}}",
+							"host": [
+								"{{contests-api-host}}"
+							],
+							"path": [
+								"api",
+								"contests",
+								"{{contest}}"
+							]
+						},
+						"description": "Update a contest"
+					},
+					"response": []
+				},
+				{
+					"name": "startVotationsusingput",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{contests-api-host}}/api/contests/{{contest}}/voting",
+							"host": [
+								"{{contests-api-host}}"
+							],
+							"path": [
+								"api",
+								"contests",
+								"{{contest}}",
+								"voting"
+							]
+						},
+						"description": "Start votation period"
+					},
+					"response": []
+				},
+				{
+					"name": "stopVotationsusingdelete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{contests-api-host}}/api/contests/{{contest}}/voting",
+							"host": [
+								"{{contests-api-host}}"
+							],
+							"path": [
+								"api",
+								"contests",
+								"{{contest}}",
+								"voting"
+							]
+						},
+						"description": "Stop votation period"
+					},
+					"response": []
+				},
+				{
+					"name": "listCategoriesusingget",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{contests-api-host}}/api/contests/{{contest}}/categories",
+							"host": [
+								"{{contests-api-host}}"
+							],
+							"path": [
+								"api",
+								"contests",
+								"{{contest}}",
+								"categories"
+							]
+						},
+						"description": "List all categories of the contest"
+					},
+					"response": []
+				},
+				{
+					"name": "createCategoryusingpost",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{contests-api-host}}/api/contests/{{contest}}/categories",
+							"host": [
+								"{{contests-api-host}}"
+							],
+							"path": [
+								"api",
+								"contests",
+								"{{contest}}",
+								"categories"
+							]
+						},
+						"description": "Create a category"
+					},
+					"response": []
+				},
+				{
+					"name": "addCandidateusingpost",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "body",
+									"value": null,
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{contests-api-host}}/api/contests/{{contest}}/categories/:category/candidates",
+							"host": [
+								"{{contests-api-host}}"
+							],
+							"path": [
+								"api",
+								"contests",
+								"{{contest}}",
+								"categories",
+								":category",
+								"candidates"
+							],
+							"variable": [
+								{
+									"key": "category"
+								}
+							]
+						},
+						"description": "Add a new candidate"
+					},
+					"response": []
+				},
+				{
+					"name": "deleteCategoryusingdelete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{contests-api-host}}/api/contests/{{contest}}/categories/:category",
+							"host": [
+								"{{contests-api-host}}"
+							],
+							"path": [
+								"api",
+								"contests",
+								"{{contest}}",
+								"categories",
+								":category"
+							],
+							"variable": [
+								{
+									"key": "category"
+								}
+							]
+						},
+						"description": "Delete a category"
+					},
+					"response": []
+				},
+				{
+					"name": "deleteContestusingdelete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{contests-api-host}}/api/contests/{{contest}}",
+							"host": [
+								"{{contests-api-host}}"
+							],
+							"path": [
+								"api",
+								"contests",
+								"{{contest}}"
+							]
+						},
+						"description": "Delete a contest"
+					},
+					"response": []
+				},
+				{
+					"name": "getCategoryusingget",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{contests-api-host}}/api/contests/{{contest}}/categories/:category",
+							"host": [
+								"{{contests-api-host}}"
+							],
+							"path": [
+								"api",
+								"contests",
+								"{{contest}}",
+								"categories",
+								":category"
+							],
+							"variable": [
+								{
+									"key": "category"
+								}
+							]
+						},
+						"description": "Get a category"
+					},
+					"response": []
+				},
+				{
+					"name": "listCandidatesusingget",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{contests-api-host}}/api/contests/{{contest}}/categories/:category/candidates",
+							"host": [
+								"{{contests-api-host}}"
+							],
+							"path": [
+								"api",
+								"contests",
+								"{{contest}}",
+								"categories",
+								":category",
+								"candidates"
+							],
+							"variable": [
+								{
+									"key": "category"
+								}
+							]
+						},
+						"description": "List all candidates of the category"
+					},
+					"response": []
+				},
+				{
+					"name": "removeCandidateusingdelete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "body",
+									"value": null,
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{contests-api-host}}/api/contests/{{contest}}/categories/:category/candidates",
+							"host": [
+								"{{contests-api-host}}"
+							],
+							"path": [
+								"api",
+								"contests",
+								"{{contest}}",
+								"categories",
+								":category",
+								"candidates"
+							],
+							"variable": [
+								{
+									"key": "category"
+								}
+							]
+						},
+						"description": "Remove a candidate"
+					},
+					"response": []
+				},
+				{
+					"name": "listShowsusingget",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{contests-api-host}}/api/contests/{{contest}}/shows",
+							"host": [
+								"{{contests-api-host}}"
+							],
+							"path": [
+								"api",
+								"contests",
+								"{{contest}}",
+								"shows"
+							]
+						},
+						"description": "List all shows of the contest"
+					},
+					"response": []
+				},
+				{
+					"name": "getShowusingget",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{contests-api-host}}/api/contests/{{contest}}/shows/:show",
+							"host": [
+								"{{contests-api-host}}"
+							],
+							"path": [
+								"api",
+								"contests",
+								"{{contest}}",
+								"shows",
+								":show"
+							],
+							"variable": [
+								{
+									"key": "show"
+								}
+							]
+						},
+						"description": "Get a show by the code"
+					},
+					"response": []
+				},
+				{
+					"name": "updateCategoryusingput",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{contests-api-host}}/api/contests/{{contest}}/categories/:category",
+							"host": [
+								"{{contests-api-host}}"
+							],
+							"path": [
+								"api",
+								"contests",
+								"{{contest}}",
+								"categories",
+								":category"
+							],
+							"variable": [
+								{
+									"key": "category"
+								}
+							]
+						},
+						"description": "Update a category"
+					},
+					"response": []
+				},
+				{
+					"name": "createShowusingpost",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "body",
+									"value": null,
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{contests-api-host}}/api/contests/{{contest}}/shows",
+							"host": [
+								"{{contests-api-host}}"
+							],
+							"path": [
+								"api",
+								"contests",
+								"{{contest}}",
+								"shows"
+							]
+						},
+						"description": "Create a show. The only needed parameter is the name."
+					},
+					"response": []
+				},
+				{
+					"name": "deleteShowusingdelete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{contests-api-host}}/api/contests/{{contest}}/shows/:show",
+							"host": [
+								"{{contests-api-host}}"
+							],
+							"path": [
+								"api",
+								"contests",
+								"{{contest}}",
+								"shows",
+								":show"
+							],
+							"variable": [
+								{
+									"key": "show"
+								}
+							]
+						},
+						"description": "Delete a show by the code"
+					},
+					"response": []
+				},
+				{
+					"name": "voteUsingPOST",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "body",
+									"value": null,
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{contests-api-host}}/api/contests/{{contest}}/shows/:show/vote",
+							"host": [
+								"{{contests-api-host}}"
+							],
+							"path": [
+								"api",
+								"contests",
+								"{{contest}}",
+								"shows",
+								":show",
+								"vote"
+							],
+							"variable": [
+								{
+									"key": "show"
+								}
+							]
+						},
+						"description": "Vote"
+					},
+					"response": []
+				},
+				{
+					"name": "bulkLoad",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"categories\": {\r\n        \"Mellor locutor novato\": [\r\n            \"Camilo Rey\"\r\n        ],\r\n        \"Mellor locutor sénior\": [\r\n            \"Rafa Doldán\",\r\n            \"Rodrigo Gil\",\r\n            \"Hugo Dopazo\",\r\n            \"Ozzy de Castro\",\r\n            \"Jorge Garou Catoira\",\r\n            \"Roberto Ansede\",\r\n            \"Rodri Gil\",\r\n            \"Adri\",\r\n            \"Jorge\",\r\n            \"Álex Bardanca\",\r\n            \"Gelo\",\r\n            \"Jorge Varela Pardo\",\r\n            \"Oscar García\",\r\n            \"Rubén Sánchez\",\r\n            \"Manu Castiñeira\",\r\n            \"Javier Pereira\",\r\n            \"Mr Iverson\",\r\n            \"Samu Cao\",\r\n            \"Chema Casanova\",\r\n            \"Tomi Desastre\",\r\n            \"Iván Vieites\",\r\n            \"Rubén Orión\"\r\n        ],\r\n        \"Mellor locutora novata\": [\r\n            \"María Núñez\",\r\n            \"Silvia Larrosa Pan\",\r\n            \"PersonaRelleno1\",\r\n            \"PersonaRelleno2\",\r\n            \"PersonaRelleno3\"\r\n        ],\r\n        \"Mellor locutora sénior\": [\r\n            \"Paula Alonso\",\r\n            \"Marina\",\r\n            \"Hortensia Rosi\",\r\n            \"Gema Millán\",\r\n            \"Marta López\",\r\n            \"Estela\",\r\n            \"Isa Lema\",\r\n            \"Bea Ulalume\",\r\n            \"Chus García Abeledo\",\r\n            \"Puerto Pérez Domínguez\",\r\n            \"Concha Maneiro\",\r\n            \"Svetlana Ibárruri\",\r\n            \"Marta Gómez Montero\"\r\n        ],\r\n        \"Mellor magazine cultural ou divulgativo\": [\r\n            \"A Fume De Carozo\",\r\n            \"Heima\",\r\n            \"Recendo\",\r\n            \"Radio Sénior\"\r\n        ],\r\n        \"Mellor magazine de actualidade/informativos\": [\r\n            \"Alegría\",\r\n            \"El Desinformativo\",\r\n            \"Simplemente Gente\",\r\n            \"Sin Etiquetas\"\r\n        ],\r\n        \"Mellor programa de Cuac FM\": [\r\n            \"A Fume De Carozo\",\r\n            \"Alegría\",\r\n            \"El Desinformativo\",\r\n            \"Enboxes\",\r\n            \"EnWorking\",\r\n            \"Heima\",\r\n            \"Internet De Tu Color Favorito\",\r\n            \"La Regadera\",\r\n            \"Loco Iván\",\r\n            \"Mi Rollo Es El Rock\",\r\n            \"Radio Sénior\",\r\n            \"Recendo\",\r\n            \"Simplemente Gente\",\r\n            \"Sin Etiquetas\",\r\n            \"Spoiler\"\r\n        ],\r\n        \"Mellor programa musical\": [\r\n            \"Mi Rollo Es El Rock\",\r\n            \"Orion 2.0\",\r\n            \"ProgramaRelleno1\",\r\n            \"ProgramaRelleno2\",\r\n            \"ProgramaRelleno3\"\r\n        ],\r\n        \"Mellor programa novato\": [\r\n            \"Heima\",\r\n            \"Internet De Tu Color Favorito\",\r\n        \t\"Malhumorhadas\",\r\n        \t\"EnWorking\",\r\n        \t\"La Regadera\"\r\n        ],\r\n        \"Mellor programa temático ou de humor\": [\r\n            \"Enboxes\",\r\n            \"EnWorking\",\r\n            \"Internet De Tu Color Favorito\",\r\n            \"La Regadera\",\r\n            \"Loco Iván\",\r\n            \"Spoiler\"\r\n        ],\r\n        \"Mellor técnico/a novato/a\": [\r\n            \"Yosi\",\r\n            \"Nuno Cabezudo\",\r\n            \"Camilo Rey\",\r\n            \"PersonaRelleno1\",\r\n            \"PersonaRelleno2\",\r\n            \"PersonaRelleno3\"\r\n        ],\r\n        \"Mellor técnico/a sénior\": [\r\n            \"Ozzy de Castro\",\r\n            \"Álex Bardanca\",\r\n            \"Jorge\",\r\n            \"Miguel Anxo Vazquez\",\r\n            \"Carlos Reguera\",\r\n            \"Roberto Catoira\",\r\n            \"Chema Casanova\",\r\n            \"Mariano Fernández (Mr Bugalú)\",\r\n            \"Luis Santillana\",\r\n            \"Jorge Varela Pardo\",\r\n            \"Iván Vieites\",\r\n            \"Rubén Orión\"\r\n        ],\r\n        \"Programa coa mellor promoción en redes sociais\": [\r\n            \"A Fume De Carozo\",\r\n            \"Alegría\",\r\n            \"El Desinformativo\",\r\n            \"Enboxes\",\r\n            \"EnWorking\",\r\n            \"Heima\",\r\n            \"Internet De Tu Color Favorito\",\r\n            \"La Regadera\",\r\n            \"Loco Iván\",\r\n            \"Mi Rollo Es El Rock\",\r\n            \"Radio Sénior\",\r\n            \"Recendo\",\r\n            \"Simplemente Gente\",\r\n            \"Sin Etiquetas\",\r\n            \"Spoiler\"\r\n        ],\r\n        \"Programa coa mellor producción\": [\r\n            \"A Fume De Carozo\",\r\n            \"Alegría\",\r\n            \"El Desinformativo\",\r\n            \"Enboxes\",\r\n            \"EnWorking\",\r\n            \"Heima\",\r\n            \"Internet De Tu Color Favorito\",\r\n            \"La Regadera\",\r\n            \"Loco Iván\",\r\n            \"Mi Rollo Es El Rock\",\r\n            \"Radio Sénior\",\r\n            \"Recendo\",\r\n            \"Simplemente Gente\",\r\n            \"Sin Etiquetas\",\r\n            \"Spoiler\"\r\n        ]\r\n    },\r\n    \"name\": \"Oscuacs 2019\",\r\n    \"shows\": {\r\n        \"A Fume De Carozo\": [\r\n            \"Roberto Catoira\"\r\n        ],\r\n        \"Alegría\": [\r\n            \"Bea Ulalume\",\r\n            \"Isa Lema\",\r\n            \"Tomi Desastre\",\r\n            \"Mariano Fernández (Mr Bugalú)\"\r\n        ],\r\n        \"El Desinformativo\": [\r\n            \"Ozzy de Castro\",\r\n            \"Jorge Garou Catoira\",\r\n            \"Roberto Ansede\",\r\n            \"Rodrigo Gil\"\r\n        ],\r\n        \"EnWorking\": [\r\n            \"Marta Gómez Montero\",\r\n            \"Jorge Varela Pardo\"\r\n        ],\r\n        \"Enboxes\": [\r\n            \"Jorge Varela Pardo\",\r\n            \"Miguel Anxo Vazquez\"\r\n        ],\r\n        \"Heima\": [\r\n            \"Paula Alonso\"\r\n        ],\r\n        \"Internet De Tu Color Favorito\": [\r\n            \"Camilo Rey\"\r\n        ],\r\n        \"La Regadera\": [\r\n            \"Rafa Doldán\",\r\n            \"Rodrigo Gil\",\r\n            \"Hugo Dopazo\"\r\n        ],\r\n        \"Loco Iván\": [\r\n            \"Svetlana Ibárruri\",\r\n            \"Camarada Bigalov\"\r\n        ],\r\n        \"Malhumorhadas\": [\r\n            \"Estela\",\r\n            \"Yosi\"\r\n        ],\r\n        \"Mi Rollo Es El Rock\": [\r\n            \"Iván Vieites\"\r\n        ],\r\n        \"Radio Sénior\": [\r\n            \"Concha Maneiro\",\r\n            \"Chus García Abeledo\",\r\n            \"Puerto Pérez Domínguez\",\r\n            \"Nuno Cabezudo\",\r\n            \"Luis Santillana\",\r\n            \"Silvia Larrosa Pan\"\r\n        ],\r\n        \"Recendo\": [\r\n            \"Gema Millán\",\r\n            \"Marta López\",\r\n            \"Javier Pereira\",\r\n            \"Manu Castiñeira\",\r\n            \"Roberto Catoira\"\r\n        ],\r\n        \"Simplemente Gente\": [\r\n            \"Hortensia Rosi\",\r\n            \"Rubén Sánchez\",\r\n            \"Carlos Reguera\",\r\n            \"Oscar García\",\r\n            \"María Núñez\"\r\n        ],\r\n        \"Sin Etiquetas\": [\r\n            \"Marina\",\r\n            \"Adri\",\r\n            \"Jorge\",\r\n            \"Álex Bardanca\",\r\n            \"Gelo\",\r\n            \"Paula Alonso\"\r\n        ],\r\n        \"Spoiler\": [\r\n            \"Isa Lema\",\r\n            \"Mr Iverson\",\r\n            \"Samu Cao\",\r\n            \"Chema Casanova\"\r\n        ],\r\n        \"Orion 2.0\": [ \r\n        \t\"Rubén Orión\" \r\n        ],\r\n        \"ProgramaRelleno1\": [\r\n        \t\"PersonaRelleno1\"\r\n        ],\r\n        \"ProgramaRelleno2\": [\r\n        \t\"PersonaRelleno2\"\r\n        ],\r\n        \"ProgramaRelleno3\": [\r\n        \t\"PersonaRelleno3\"\r\n        ]\r\n    }\r\n}\r\n"
+						},
+						"url": {
+							"raw": "{{contests-api-host}}/api/load",
+							"host": [
+								"{{contests-api-host}}"
+							],
+							"path": [
+								"api",
+								"load"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getContestForShow",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{contests-api-host}}/api/voter/:show/contest",
+							"host": [
+								"{{contests-api-host}}"
+							],
+							"path": [
+								"api",
+								"voter",
+								":show",
+								"contest"
+							],
+							"variable": [
+								{
+									"key": "show",
+									"value": "",
+									"type": "string"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "bulkLoad copy",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"categories\": {\n        \"Mellor locutor novato\": [\n            \"Jorge Varela Pardo\",\n            \"Nuno Cabezudo\",\n            \"Francisco Ascón\",\n            \"Guille Gantes\",\n            \"Fernando Fernandez\"\n        ],\n        \"Mellor locutor sénior\": [\n            \"Ozzy de Castro\",\n            \"Jorge Garou Catoira\",\n            \"Iván Vieites\",\n            \"Mr Iverson\",\n            \"Diego de la Vega\",\n            \"Antonio Fra\",\n            \"Samu Cao\",\n            \"Chema Casanova\",\n            \"Alex Cortiñas\",\n            \"Rodri Gil\",\n            \"Martín Arceo\",\n            \"Roberto Ansede\",\n            \"Javier Pereira\",\n            \"Manu Castiñeira\",\n            \"Tomi Legido\",\n            \"Ramón Rivas\",\n            \"Rubén Sánchez\",\n            \"Iván Loureiro\",\n            \"Xavier Loureiro\",\n            \"Néstor Liñares\",\n            \"Rubén Martínez\",\n            \"Luís Saya\"\n        ],\n        \"Mellor locutora novata\": [\n            \"Marta Gomez Montero\",\n            \"Yosi Ledesma\",\n            \"Estela Lopez\",\n            \"Concha Maneiro\",\n            \"María Jesús García Abeledo\",\n            \"Puerto Pérez Domínguez\",\n            \"Cristina Varela\",\n            \"Rita Rodríguez\",\n            \"Nerea Fernandez\"\n        ],\n        \"Mellor locutora sénior\": [\n            \"Lali Fraga\",\n            \"Isa Lema\",\n            \"Gema Millán\",\n            \"Marta López\",\n            \"Uxía Vázquez\",\n            \"Bea Ulalume\",\n            \"Cintia García\",\n            \"Hortensia Rosi\",\n            \"Inés Cruz\",\n            \"Carmen Mera\"\n        ],\n        \"Mellor magazine cultural ou divulgativo\": [\n            \"Café Con Gotas\",\n            \"Cambia Si Cambio\",\n            \"Dentro De Un Orden\",\n            \"La Regadera\",\n            \"Millennial\",\n            \"Nubes De Papel\",\n            \"Ondas Do Cárcere\",\n            \"R Que R\",\n            \"Radiantes Fm\",\n            \"Recendo\",\n            \"Radiosénior\"\n        ],\n        \"Mellor magazine de actualidade/informativos\": [\n            \"Alegría\",\n            \"Cuac Está A Pasar\",\n            \"Dale Voz\",\n            \"El Balcón\",\n            \"El Desinformativo\",\n            \"EnWorking\",\n            \"Radio Prometea\",\n            \"Radioactiva\",\n            \"Simplemente Gente\",\n            \"Sin Etiquetas\"\n        ],\n        \"Mellor programa de Cuac FM\": [\n            \"A Fume De Carozo\",\n            \"Alegría\",\n            \"Café Con Gotas\",\n            \"Cambia Si Cambio\",\n            \"Circo Pirata\",\n            \"Clima 69\",\n            \"Cuac Está A Pasar\",\n            \"Cuak'n'Roll\",\n            \"Dale Voz\",\n            \"Dentro De Un Orden\",\n            \"El Balcón\",\n            \"El Desinformativo\",\n            \"Enboxes\",\n            \"EnWorking\",\n            \"Fantasma Accidental\",\n            \"Folk In Trío\",\n            \"La Guardia De Walter\",\n            \"La Hora Del Rock And Roll\",\n            \"La Juventud Del Papa\",\n            \"La Regadera\",\n            \"La Tarde A Nuestra Manera\",\n            \"Loco Iván\",\n            \"Manda Carallo!\",\n            \"Millennial\",\n            \"Mi Rollo Es El Rock\",\n            \"Multiplex\",\n            \"Nubes De Papel\",\n            \"Ondas Do Cárcere\",\n            \"Orión 2.1\",\n            \"Perforacción\",\n            \"R Que R\",\n            \"Radiantes Fm\",\n            \"Radio Prometea\",\n            \"Radioactiva\",\n            \"Radiocassette\",\n            \"Radiosénior\",\n            \"Recendo\",\n            \"Reversión\",\n            \"Simplemente Gente\",\n            \"Sin Etiquetas\",\n            \"Spoiler\",\n            \"Una Noche En La Ópera\",\n            \"Y A Ti Qué Te Importa?\"\n        ],\n        \"Mellor programa musical\": [\n            \"Circo Pirata\",\n            \"Clima 69\",\n            \"Cuak'n'Roll\",\n            \"Fantasma Accidental\",\n            \"Folk In Trío\",\n            \"La Guardia De Walter\",\n            \"La Hora Del Rock And Roll\",\n            \"La Tarde A Nuestra Manera\",\n            \"Mi Rollo Es El Rock\",\n            \"Multiplex\",\n            \"Orión 2.1\",\n            \"Radiocassette\",\n            \"Reversión\",\n            \"Una Noche En La Ópera\"\n        ],\n        \"Mellor programa novato\": [\n            \"Cambia Si Cambio\",\n            \"Cuak'n'Roll\",\n            \"Dale Voz\",\n            \"Enboxes\",\n            \"EnWorking\",\n            \"La Guardia De Walter\",\n            \"La Hora Del Rock And Roll\",\n            \"La Regadera\",\n            \"Loco Iván\",\n            \"Nubes De Papel\",\n            \"Perforacción\",\n            \"Radiosénior\",\n            \"Y A Ti Qué Te Importa?\"\n        ],\n        \"Mellor programa temático ou de humor\": [\n            \"A Fume De Carozo\",\n            \"Enboxes\",\n            \"La Juventud Del Papa\",\n            \"Loco Iván\",\n            \"Manda Carallo!\",\n            \"Perforacción\",\n            \"Spoiler\",\n            \"Y A Ti Qué Te Importa?\"\n        ],\n        \"Mellor técnico/a novato/a\": [\n            \"Jorge Varela Pardo\",\n            \"Miguel Anxo Vazquez\",\n            \"Lali Fraga\",\n            \"Luis Santillana\",\n            \"Guille Gantes\",\n            \"Luis Santillana\",\n            \"Nerea Fernandez\"\n        ],\n        \"Mellor técnico/a sénior\": [\n            \"Roberto Ansede\",\n            \"Ozzy de Castro\",\n            \"Iván Vieites\",\n            \"Chema Casanova\",\n            \"Alex Cortiñas\",\n            \"Roberto Catoira\",\n            \"Mariano Fernández (Mr Bugalú)\",\n            \"Carlos Reguera\",\n            \"Juan Mayo\",\n            \"Antonio López\",\n            \"Luís Saya\"\n        ],\n        \"Programa coa mellor promoción en redes sociais\": [\n            \"A Fume De Carozo\",\n            \"Alegría\",\n            \"Café Con Gotas\",\n            \"Cambia Si Cambio\",\n            \"Circo Pirata\",\n            \"Clima 69\",\n            \"Cuac Está A Pasar\",\n            \"Cuak'n'Roll\",\n            \"Dale Voz\",\n            \"Dentro De Un Orden\",\n            \"El Balcón\",\n            \"El Desinformativo\",\n            \"Enboxes\",\n            \"EnWorking\",\n            \"Fantasma Accidental\",\n            \"Folk In Trío\",\n            \"La Guardia De Walter\",\n            \"La Hora Del Rock And Roll\",\n            \"La Juventud Del Papa\",\n            \"La Regadera\",\n            \"La Tarde A Nuestra Manera\",\n            \"Loco Iván\",\n            \"Manda Carallo!\",\n            \"Millennial\",\n            \"Mi Rollo Es El Rock\",\n            \"Multiplex\",\n            \"Nubes De Papel\",\n            \"Ondas Do Cárcere\",\n            \"Orión 2.1\",\n            \"Perforacción\",\n            \"R Que R\",\n            \"Radiantes Fm\",\n            \"Radio Prometea\",\n            \"Radioactiva\",\n            \"Radiocassette\",\n            \"Radiosénior\",\n            \"Recendo\",\n            \"Reversión\",\n            \"Simplemente Gente\",\n            \"Sin Etiquetas\",\n            \"Spoiler\",\n            \"Una Noche En La Ópera\",\n            \"Y A Ti Qué Te Importa?\"\n        ]\n    },\n    \"name\": \"Oscuacs 2018\",\n    \"shows\": {\n        \"A Fume De Carozo\": [\n            \"Roberto Catoira\"\n        ],\n        \"Alegría\": [\n            \"Bea Ulalume\",\n            \"Isa Lema\",\n            \"Tomi Legido\",\n            \"Mariano Fernández (Mr Bugalú)\"\n        ],\n        \"Café Con Gotas\": [],\n        \"Cambia Si Cambio\": [],\n        \"Circo Pirata\": [],\n        \"Clima 69\": [],\n        \"Cuac Está A Pasar\": [],\n        \"Cuak'n'Roll\": [\n            \"Carmen Mera\",\n            \"Fernando Fernandez\",\n            \"Nerea Fernandez\"\n        ],\n        \"Dale Voz\": [],\n        \"Dentro De Un Orden\": [],\n        \"El Balcón\": [],\n        \"El Desinformativo\": [\n            \"Ozzy de Castro\",\n            \"Jorge Garou Catoira\",\n            \"Roberto Ansede\"\n        ],\n        \"EnWorking\": [\n            \"Marta Gomez Montero\",\n            \"Jorge Varela Pardo\"\n        ],\n        \"Enboxes\": [\n            \"Jorge Varela Pardo\",\n            \"Miguel Anxo Vazquez\"\n        ],\n        \"Fantasma Accidental\": [],\n        \"Folk In Trío\": [],\n        \"La Guardia De Walter\": [],\n        \"La Hora Del Rock And Roll\": [],\n        \"La Juventud Del Papa\": [\n            \"Rodri Gil\",\n            \"Martín Arceo\",\n            \"Roberto Ansede\"\n        ],\n        \"La Regadera\": [],\n        \"La Tarde A Nuestra Manera\": [\n            \"Luís Saya\"\n        ],\n        \"Loco Iván\": [],\n        \"Manda Carallo!\": [\n            \"Iván Loureiro\",\n            \"Xavier Loureiro\",\n            \"Néstor Liñares\",\n            \"Juan Mayo\"\n        ],\n        \"Mi Rollo Es El Rock\": [\n            \"Iván Vieites\"\n        ],\n        \"Millennial\": [\n            \"Cintia García\",\n            \"Ramón Rivas\",\n            \"Cristina Varela\",\n            \"Guille Gantes\"\n        ],\n        \"Multiplex\": [],\n        \"Nubes De Papel\": [],\n        \"Ondas Do Cárcere\": [],\n        \"Orión 2.1\": [\n            \"Rubén Martínez\",\n            \"Antonio López\"\n        ],\n        \"Perforacción\": [\n            \"Inés Cruz\",\n            \"Rita Rodríguez\",\n            \"Luis Santillana\"\n        ],\n        \"R Que R\": [],\n        \"Radiantes Fm\": [],\n        \"Radio Prometea\": [],\n        \"Radioactiva\": [],\n        \"Radiocassette\": [],\n        \"Radiosénior\": [\n            \"Concha Maneiro\",\n            \"María Jesús García Abeledo\",\n            \"Puerto Pérez Domínguez\",\n            \"Nuno Cabezudo\",\n            \"Francisco Ascón\",\n            \"Luis Santillana\"\n        ],\n        \"Recendo\": [\n            \"Gema Millán\",\n            \"Marta López\",\n            \"Uxía Vázquez\",\n            \"Javier Pereira\",\n            \"Manu Castiñeira\",\n            \"Roberto Catoira\"\n        ],\n        \"Reversión\": [],\n        \"Simplemente Gente\": [\n            \"Hortensia Rosi\",\n            \"Rubén Sánchez\",\n            \"Carlos Reguera\"\n        ],\n        \"Sin Etiquetas\": [],\n        \"Spoiler\": [\n            \"Isa Lema\",\n            \"Mr Iverson\",\n            \"Diego de la Vega\",\n            \"Antonio Fra\",\n            \"Samu Cao\",\n            \"Chema Casanova\",\n            \"Alex Cortiñas\"\n        ],\n        \"Una Noche En La Ópera\": [],\n        \"Y A Ti Qué Te Importa?\": [\n            \"Yosi Ledesma\",\n            \"Estela Lopez\",\n            \"Lali Fraga\"\n        ]\n    }\n}"
+						},
+						"url": {
+							"raw": "{{contests-api-host}}/api/load",
+							"host": [
+								"{{contests-api-host}}"
+							],
+							"path": [
+								"api",
+								"load"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
